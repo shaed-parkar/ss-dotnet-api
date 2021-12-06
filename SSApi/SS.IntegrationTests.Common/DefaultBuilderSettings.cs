@@ -1,7 +1,7 @@
 using FizzWare.NBuilder;
 using SS.Domain;
 
-namespace SS.DAL.Tests;
+namespace SS.Tests.Common;
 
 public static class DefaultBuilderSettings
 {

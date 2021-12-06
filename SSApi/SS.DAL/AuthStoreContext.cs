@@ -1,6 +1,8 @@
+#pragma warning disable CS8618
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SS.Domain;
+
 
 namespace SS.DAL;
 

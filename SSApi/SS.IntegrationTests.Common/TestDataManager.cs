@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SS.DAL;
 using SS.Domain;
 
-namespace SS.DAL.Tests;
+namespace SS.Tests.Common;
 
 public class TestDataManager
 {

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using SS.DAL.Exceptions;
 using SS.DAL.Queries;
 using SS.Domain;
+using SS.Tests.Common;
 
 namespace SS.DAL.Tests.Queries;
 

@@ -13,7 +13,7 @@
             where TQuery : IQuery where TResult : class
         {
             var genericType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-            return (IQueryHandler<TQuery, TResult>) _serviceProvider.GetService(genericType);
+            return (IQueryHandler<TQuery, TResult>) _serviceProvider.GetService(genericType)!;
             // Service Locator is anti-pattern. Need to figure out better way of managing this
         }
     }

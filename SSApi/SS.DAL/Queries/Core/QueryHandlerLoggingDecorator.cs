@@ -26,7 +26,7 @@ namespace SS.DAL.Queries.Core
             properties.Add(nameof(TResult), typeof(TResult).Name);
             using (_logger.BeginScope(properties))
             {
-                // Unfortunetely this scope wont apply to the underlying handler as its already been resolved from the logger factory.
+                // Unfortunately this scope wont apply to the underlying handler as its already been resolved from the logger factory.
                 _logger.LogDebug("Handling query");
                 var sw = Stopwatch.StartNew();
                 var result = await _underlyingHandler.Handle(query);

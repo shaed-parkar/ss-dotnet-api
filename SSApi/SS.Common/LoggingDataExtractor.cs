@@ -2,15 +2,15 @@ namespace SS.Common
 {
     public interface ILoggingDataExtractor
     {
-        Dictionary<string, object> ConvertToDictionary(object input, string path = null, int debth = 0);
+        Dictionary<string, object> ConvertToDictionary(object input, string path = null!, int depth = 0);
     }
 
     public class LoggingDataExtractor : ILoggingDataExtractor
     {
-        public Dictionary<string, object> ConvertToDictionary(object input, string path = null, int debth = 0)
+        public Dictionary<string, object> ConvertToDictionary(object input, string path = null!, int depth = 0)
         {
             var result = new Dictionary<string, object>();
-            if (debth > 3)
+            if (depth > 3)
             {
                 // Protection from recusrive properties
                 return result;
@@ -28,7 +28,7 @@ namespace SS.Common
                 var value = property.GetValue(input);
                 if (IsCustomType(property.PropertyType))
                 {
-                    var propertyValues = ConvertToDictionary(value, GetPath(path, property.Name), debth++);
+                    var propertyValues = ConvertToDictionary(value!, GetPath(path, property.Name), depth++);
                     foreach (var kvp in propertyValues)
                     {
                         result.Add(kvp.Key, kvp.Value);
@@ -41,7 +41,7 @@ namespace SS.Common
                 }
                 else
                 {
-                    result.Add(GetPath(path, property.Name), value);
+                    result.Add(GetPath(path, property.Name), value!);
                 }
             }
 
@@ -58,7 +58,7 @@ namespace SS.Common
         /// <param name="type"></param>
         /// <returns></returns>
         private bool IsCustomType(Type type) => !type.IsEnum &&
-                                                type.AssemblyQualifiedName!.StartsWith(GetType().AssemblyQualifiedName
+                                                type.AssemblyQualifiedName!.StartsWith(GetType().AssemblyQualifiedName!
                                                     .Split('.')[0]);
     }
 }
