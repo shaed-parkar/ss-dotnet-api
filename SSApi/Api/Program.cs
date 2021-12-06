@@ -3,7 +3,11 @@ using Api.Extensions;
 using Api.Middleware;
 using Api.Middleware.Validation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SS.Api.Contracts;
 using SS.Common;
 using SS.DAL;
@@ -12,6 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCustomTypes();
+
+builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString(AppConstants.AuthStoreDbName));
 
 builder.Services.AddControllers(options => options.Filters.Add<LoggingActionFilter>());
 builder.Services.AddControllers(options => options.Filters.Add<RequestModelValidatorFilter>())
@@ -43,7 +50,14 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
-
+app.UseRouting().UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+    {
+        AllowCachingResponses = false,
+        ResponseWriter = WriteHealthCheckResponse
+    });
+});
 app.UseAuthorization();
 
 app.MapControllers();
@@ -55,4 +69,20 @@ app.Run();
 
 public partial class Program
 {
+    private static Task WriteHealthCheckResponse(HttpContext context, HealthReport result)
+    {
+        context.Response.ContentType = "application/json";
+
+        var json = new JObject(
+            new JProperty("status", result.Status.ToString()),
+            new JProperty("results", new JObject(result.Entries.Select(pair =>
+                new JProperty(pair.Key, new JObject(
+                    new JProperty("status", pair.Value.Status.ToString()),
+                    new JProperty("description", pair.Value.Description),
+                    new JProperty("data", new JObject(pair.Value.Data.Select(
+                        p => new JProperty(p.Key, p.Value))))))))));
+
+        return context.Response.WriteAsync(
+            json.ToString(Formatting.Indented));
+    }
 }
