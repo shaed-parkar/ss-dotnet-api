@@ -16,7 +16,7 @@ dotnet tool install --global dotnet-ef
 Open a terminal in the same directory as the SS.DAL project. To add a migration run the following statement
 
 ```console
- dotnet ef migrations add <Migration Name>
+dotnet ef migrations add <Migration Name>
 ```
 
 ### Update the database with latest migrations
@@ -24,5 +24,34 @@ Open a terminal in the same directory as the SS.DAL project. To add a migration 
 Open a terminal in the same directory as the SS.DAL project. To add a migration run the following statement
 
 ```console
- dotnet ef database update
+dotnet ef database update
+```
+
+## Tests
+
+### Running all tests
+
+Open a terminal in the same directory as the SSApi Solution and run the following command
+
+`
+```console
+dotnet test --no-build --logger:trx --results-directory Coverage \
+"/p:CollectCoverage=true" \
+"/p:CoverletOutput=../Coverage/" \
+"/p:MergeWith=../Coverage/coverage.json" \
+"/p:CoverletOutputFormat=\"json,cobertura\"" 
+```
+
+## Creating a report
+
+Ensure the report generator tool is installed
+
+```console
+dotnet tool install -g dotnet-reportgenerator-globaltool
+```
+
+From inside a console, run the following command in the same directory as the SSApi Solution
+
+```console
+reportgenerator -reports:"./Coverage/coverage.cobertura.xml" -targetdir:"./Coverage/Report" -reporttypes:Html
 ```

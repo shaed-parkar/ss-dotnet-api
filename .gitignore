@@ -355,3 +355,6 @@ MigrationBackup/
 
 # Mac OS
 .DS_Store
+
+# Coverage results from manual test run
+Coverage/
