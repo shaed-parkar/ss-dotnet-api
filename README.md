@@ -18,3 +18,11 @@ Open a terminal in the same directory as the SS.DAL project. To add a migration 
 ```console
  dotnet ef migrations add <Migration Name>
 ```
+
+### Update the database with latest migrations
+
+Open a terminal in the same directory as the SS.DAL project. To add a migration run the following statement
+
+```console
+ dotnet ef database update
+```

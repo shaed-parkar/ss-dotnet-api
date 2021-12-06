@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SS.DAL.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class AddInital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,8 @@ namespace SS.DAL.Migrations
                         name: "FK_Note_Author_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Author",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

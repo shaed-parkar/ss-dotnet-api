@@ -70,7 +70,8 @@ namespace SS.DAL.Migrations
                 {
                     b.HasOne("SS.Domain.Author", null)
                         .WithMany("Notes")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SS.Domain.Author", b =>

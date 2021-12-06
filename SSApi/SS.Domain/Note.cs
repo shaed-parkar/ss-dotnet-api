@@ -6,6 +6,7 @@ namespace SS.Domain;
 
 public class Note : Entity<int>
 {
+    protected Note(){}
     public Note(string content, PriorityLevel priority)
     {
         ValidateArguments(content);

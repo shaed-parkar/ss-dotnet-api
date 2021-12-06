@@ -12,8 +12,8 @@ using SS.DAL;
 namespace SS.DAL.Migrations
 {
     [DbContext(typeof(AuthStoreContext))]
-    [Migration("20211204001410_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211204014334_AddInital")]
+    partial class AddInital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,8 @@ namespace SS.DAL.Migrations
                 {
                     b.HasOne("SS.Domain.Author", null)
                         .WithMany("Notes")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SS.Domain.Author", b =>

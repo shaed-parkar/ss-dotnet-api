@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using SS.Common;
 
 namespace SS.DAL;
 
@@ -10,10 +11,10 @@ public class DesignTimeAuthStoreContext : IDesignTimeDbContextFactory<AuthStoreC
     {
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", true)
-            .AddUserSecrets("A5E0686B-1334-404B-811C-8C3F1E542EF1")
+            .AddUserSecrets(AppConstants.SecretKey)
             .Build();
         var builder = new DbContextOptionsBuilder<AuthStoreContext>();
-        builder.UseSqlServer(config.GetConnectionString("SSAuthStore"));
+        builder.UseSqlServer(config.GetConnectionString(AppConstants.AuthStoreDbName));
         var context = new AuthStoreContext(builder.Options);
         return context;
     }
