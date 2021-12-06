@@ -1,3 +1,5 @@
+using Api.Middleware.Validation;
+using FluentValidation;
 using Microsoft.ApplicationInsights.Extensibility;
 using SS.Common;
 using SS.DAL.Commands.Core;
@@ -34,6 +36,9 @@ public static class ServiceCollectionExtensions
             .AsImplementedInterfaces()
             .WithTransientLifetime());
         serviceCollection.Decorate(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
+        
+        serviceCollection.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
+        serviceCollection.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
         
         return serviceCollection;
     }

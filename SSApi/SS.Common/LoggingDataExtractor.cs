@@ -7,14 +7,20 @@ namespace SS.Common
 
     public class LoggingDataExtractor : ILoggingDataExtractor
     {
-        public Dictionary<string, object> ConvertToDictionary(object input, string path = null!, int depth = 0)
+        public Dictionary<string, object> ConvertToDictionary(object? input, string path = null!, int depth = 0)
         {
             var result = new Dictionary<string, object>();
             if (depth > 3)
             {
-                // Protection from recusrive properties
+                // Protection from recursive properties
                 return result;
             }
+            
+            if (input == null)
+            {
+                return result;
+            }
+
 
             var type = input.GetType();
             if (!IsCustomType(type))

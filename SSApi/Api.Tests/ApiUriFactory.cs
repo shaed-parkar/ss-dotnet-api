@@ -8,6 +8,6 @@ public static class ApiUriFactory
     {
         private const string ApiRoot = "authors";
         public static string GetAuthorById(Guid authorId) => $"{ApiRoot}/{authorId}";
+        public static string AddNewAuthor => $"{ApiRoot}";
     }
-
 }

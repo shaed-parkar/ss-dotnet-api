@@ -1,6 +1,8 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SS.Api.Contracts;
+using SS.Api.Contracts.Requests;
+using SS.DAL.Commands;
 using SS.DAL.Commands.Core;
 using SS.DAL.Queries;
 using SS.DAL.Queries.Core;
@@ -9,6 +11,8 @@ using SS.Domain;
 namespace Api.Controllers
 {
     [Route("[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     public class AuthorsController : ControllerBase
     {
@@ -42,6 +46,26 @@ namespace Api.Controllers
             }
             _logger.LogTrace("Found author {AuthorId}", id);
             return Ok(new AuthorDto(author.Id, author.FirstName, author.LastName));
+        }
+
+        /// <summary>
+        /// Create a new author
+        /// </summary>
+        /// <param name="newAuthor"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "AddNewAuthor")]
+        [ProducesResponseType(typeof(AuthorDto), (int) HttpStatusCode.Created)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<AuthorDto>> AddNewAuthor([FromBody] NewAuthorDto newAuthor)
+        {
+            var command = new AddAuthorCommand(newAuthor.FirstName, newAuthor.LastName);
+            
+            await _commandHandler.Handle(command);
+            
+            var author = command.CreatedAuthor;
+            var authorDto = new AuthorDto(author.Id, author.FirstName, author.LastName);
+            _logger.LogTrace("Created a new author {AuthorId}", author.Id);
+            return CreatedAtAction(nameof(GetAuthorById), new {id = author.Id}, authorDto);
         }
     }
 }

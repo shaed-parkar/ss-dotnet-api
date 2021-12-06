@@ -36,6 +36,8 @@ public class AddAuthorCommandTests : DatabaseTestsBase
         _author.Should().NotBeNull();
         _author.FirstName.Should().Be(firstName);
         _author.LastName.Should().Be(lastName);
+
+        command.CreatedAuthor.Should().BeEquivalentTo(_author);
     }
     
     [TearDown]

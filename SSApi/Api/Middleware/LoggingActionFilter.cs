@@ -5,13 +5,13 @@ using SS.Common;
 
 namespace Api.Middleware;
 
-public class LoggingMiddleware : IAsyncActionFilter
+public class LoggingActionFilter : IAsyncActionFilter
 {
-    private readonly ILogger<LoggingMiddleware> _logger;
+    private readonly ILogger<LoggingActionFilter> _logger;
 
     private readonly ILoggingDataExtractor _loggingDataExtractor;
 
-    public LoggingMiddleware(ILogger<LoggingMiddleware> logger, ILoggingDataExtractor loggingDataExtractor)
+    public LoggingActionFilter(ILogger<LoggingActionFilter> logger, ILoggingDataExtractor loggingDataExtractor)
     {
         _logger = logger;
         _loggingDataExtractor = loggingDataExtractor;

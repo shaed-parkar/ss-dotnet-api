@@ -13,6 +13,8 @@ public class AddAuthorCommand : ICommand
 
     public string FirstName { get; }
     public string LastName { get; }
+    
+    public Author CreatedAuthor { get; internal set; }
 }
 
 public class AddAuthorCommandHandler : ICommandHandler<AddAuthorCommand>
@@ -24,10 +26,11 @@ public class AddAuthorCommandHandler : ICommandHandler<AddAuthorCommand>
         _context = context;
     }
 
-    public Task Handle(AddAuthorCommand command)
+    public async Task Handle(AddAuthorCommand command)
     {
         var author = new Author(command.FirstName, command.LastName);
         _context.Authors.Add(author);
-        return _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+        command.CreatedAuthor = author;
     }
 }
