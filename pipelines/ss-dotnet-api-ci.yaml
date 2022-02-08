@@ -13,7 +13,7 @@ trigger:
       - main
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: "windows-latest"
 
 variables:
   buildConfiguration: "Release"
@@ -45,7 +45,7 @@ steps:
       command: test
       arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       publishTestResults: true
-      projects: "**/*Domain.Tests.csproj"
+      projects: "**/*.Tests.csproj"
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage report"
