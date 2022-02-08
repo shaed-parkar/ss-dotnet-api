@@ -1,5 +1,16 @@
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+    exclude:
+      - scripts
+  drafts: false
+
 trigger:
-  - main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: "ubuntu-latest"
@@ -35,11 +46,11 @@ steps:
     inputs:
       command: publish
       publishWebProjects: True
-      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
       zipAfterPublish: True
 
     # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)' 
-      artifactName: 'ss-dotnet-api'
+      targetPath: "$(Build.ArtifactStagingDirectory)"
+      artifactName: "ss-dotnet-api"
