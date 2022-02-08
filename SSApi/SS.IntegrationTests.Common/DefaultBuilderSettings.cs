@@ -5,7 +5,7 @@ namespace SS.Tests.Common;
 
 public static class DefaultBuilderSettings
 {
-    private static  BuilderSettings? _instance;
+    private static  BuilderSettings _instance;
     
     public static BuilderSettings Instance()  {
         if (_instance != null) return _instance;

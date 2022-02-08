@@ -13,7 +13,7 @@ namespace SS.DAL.Tests.Commands;
 public class AddNewNoteCommandTests : DatabaseTestsBase
 {
     private AddNoteCommandHandler _handler = null!;
-    private Author? _author;
+    private Author _author;
     
     [SetUp]
     public void SetUp()
