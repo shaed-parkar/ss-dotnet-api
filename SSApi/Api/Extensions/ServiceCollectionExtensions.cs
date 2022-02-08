@@ -1,6 +1,5 @@
 using Api.Middleware.Validation;
 using FluentValidation;
-using Microsoft.ApplicationInsights.Extensibility;
 using SS.Common;
 using SS.DAL.Commands.Core;
 using SS.DAL.Queries.Core;
@@ -12,7 +11,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCustomTypes(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<ILoggingDataExtractor, LoggingDataExtractor>();
-        serviceCollection.AddSingleton<ITelemetryInitializer, SSAppInsightsTelemetry>();
         
         serviceCollection.AddScoped<IQueryHandlerFactory, QueryHandlerFactory>();
         serviceCollection.AddScoped<IQueryHandler, QueryHandler>();

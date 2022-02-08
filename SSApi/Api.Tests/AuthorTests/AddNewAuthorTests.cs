@@ -11,7 +11,7 @@ namespace Api.Tests.AuthorTests;
 
 public class AddNewAuthorTests : ControllerTest
 {
-    private AuthorDto? _author;
+    private AuthorDto _author;
     
     [SetUp]
     public void Setup()

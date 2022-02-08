@@ -38,7 +38,7 @@ namespace Api.Controllers
         public async Task<ActionResult<AuthorDto>> GetAuthorById(Guid id)
         {
             var query = new GetAuthorByIdQuery(id);
-            var author = await _queryHandler.Handle<GetAuthorByIdQuery, Author?>(query);
+            var author = await _queryHandler.Handle<GetAuthorByIdQuery, Author>(query);
             if (author is null)
             {
                 _logger.LogWarning("Unable to find an author {AuthorId}", id);

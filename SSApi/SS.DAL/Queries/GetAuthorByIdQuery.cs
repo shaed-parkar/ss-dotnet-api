@@ -14,7 +14,7 @@ public class GetAuthorByIdQuery : IQuery
     public Guid AuthorId { get; }
 }
 
-public class GetAuthorByIdQueryHandler : IQueryHandler<GetAuthorByIdQuery, Author?>
+public class GetAuthorByIdQueryHandler : IQueryHandler<GetAuthorByIdQuery, Author>
 {
     private readonly AuthStoreContext _context;
 
@@ -23,7 +23,7 @@ public class GetAuthorByIdQueryHandler : IQueryHandler<GetAuthorByIdQuery, Autho
         _context = context;
     }
 
-    public Task<Author?> Handle(GetAuthorByIdQuery query)
+    public Task<Author> Handle(GetAuthorByIdQuery query)
     {
         return _context.Authors.AsNoTracking()
             .Include(x => x.Notes)

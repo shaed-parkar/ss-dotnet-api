@@ -11,7 +11,7 @@ namespace Api.Tests.AuthorTests;
 
 public class GetAuthorByIdTests : ControllerTest
 {
-    private Author? _author;
+    private Author _author;
     
     [SetUp]
     public void Setup()
