@@ -20,16 +20,21 @@ variables:
 
 steps:
   - task: DotNetCoreCLI@2
+    displayName: Restore Packages
     inputs:
       command: "restore"
+      projects: "**/*.csproj"
+      workingDirectory:
 
   - task: DotNetCoreCLI@2
+    displayName: "Build Projects"
     inputs:
       command: "build"
+      projects: "**/*.csproj"
       arguments: "--configuration $(buildConfiguration)"
-    displayName: "dotnet build $(buildConfiguration)"
 
   - task: DotNetCoreCLI@2
+    displayName: Run Tests
     inputs:
       command: test
       arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
@@ -43,6 +48,7 @@ steps:
       summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
+    displayName: Package API
     inputs:
       command: publish
       publishWebProjects: True
@@ -51,6 +57,7 @@ steps:
 
     # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
   - task: PublishPipelineArtifact@1
+    displayName: Publish Artifacts
     inputs:
       targetPath: "$(Build.ArtifactStagingDirectory)"
       artifactName: "ss-dotnet-api"
