@@ -10,7 +10,7 @@ namespace SS.DAL.Tests.Queries;
 public class GetAuthorByIdQueryTests : DatabaseTestsBase
 {
     private GetAuthorByIdQueryHandler _handler = null!;
-    private Author? _author;
+    private Author _author;
     
     [SetUp]
     public void Setup()

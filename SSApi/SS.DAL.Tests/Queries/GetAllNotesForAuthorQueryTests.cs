@@ -14,7 +14,7 @@ namespace SS.DAL.Tests.Queries;
 public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
 {
     private GetAllNotesForAuthorQueryHandler _handler = null!;
-    private Author? _author;
+    private Author _author;
 
     [SetUp]
     public void Setup()

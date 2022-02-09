@@ -10,7 +10,7 @@ namespace SS.DAL.Tests.Commands;
 public class AddAuthorCommandTests : DatabaseTestsBase
 {
     private AddAuthorCommandHandler _handler = null!;
-    private Author? _author;
+    private Author _author;
     
     [SetUp]
     public void SetUp()

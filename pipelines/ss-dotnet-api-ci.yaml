@@ -1,0 +1,69 @@
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+    exclude:
+      - scripts
+  drafts: false
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "windows-latest"
+
+variables:
+  buildConfiguration: "Release"
+
+steps:
+  - task: UseDotNet@2
+    displayName: Use .NET 6.0
+    inputs:
+      packageType: 'sdk'
+      version: '6.0.x'
+  
+  - task: DotNetCoreCLI@2
+    displayName: Restore Packages
+    inputs:
+      command: "restore"
+      projects: "**/*.csproj"
+      workingDirectory:
+
+  - task: DotNetCoreCLI@2
+    displayName: "Build Projects"
+    inputs:
+      command: "build"
+      projects: "**/*.csproj"
+      arguments: "--configuration $(buildConfiguration)"
+
+  - task: DotNetCoreCLI@2
+    displayName: Run Tests
+    inputs:
+      command: test
+      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      publishTestResults: true
+      projects: "**/*.Tests.csproj"
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage report"
+    inputs:
+      codeCoverageTool: "Cobertura"
+      summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
+
+  - task: DotNetCoreCLI@2
+    displayName: Package API
+    inputs:
+      command: publish
+      publishWebProjects: True
+      arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+      zipAfterPublish: True
+
+    # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Artifacts
+    inputs:
+      targetPath: "$(Build.ArtifactStagingDirectory)"
+      artifactName: "ss-dotnet-api"

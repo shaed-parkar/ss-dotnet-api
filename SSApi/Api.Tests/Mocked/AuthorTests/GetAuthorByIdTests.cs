@@ -33,7 +33,7 @@ public class GetAuthorByIdTests
         var author = new Builder(DefaultBuilderSettings.Instance()).CreateNew<Author>()
             .WithFactory(() => new Author("John", "Doe")).Build();
         _mocker.Mock<IQueryHandler>()
-            .Setup(x => x.Handle<GetAuthorByIdQuery, Author?>(It.Is<GetAuthorByIdQuery>(q => q.AuthorId == author.Id)))
+            .Setup(x => x.Handle<GetAuthorByIdQuery, Author>(It.Is<GetAuthorByIdQuery>(q => q.AuthorId == author.Id)))
             .ReturnsAsync(author);
 
         // act
