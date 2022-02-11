@@ -1,0 +1,30 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  ss-dotnet-core-api:
+    image: ss.netcore.api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SSAuthStore,1434=Data Source=ss-dotnet-core-api-db;Database=SSAuthDb;User Id=SA;Password=R4ndomP@assword;
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+    depends_on:
+      - ss-dotnet-core-api-db
+
+  ss-dotnet-core-api-db:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: ss.netcore.api.sql
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=R4ndomP@assword
