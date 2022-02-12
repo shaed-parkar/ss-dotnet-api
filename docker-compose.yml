@@ -1,0 +1,13 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  ss-dotnet-core-api--domain-tests:
+    image: ss.netcore.api-tests
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: dotnet test tests/SS.Domain.Tests/SS.Domain.Tests.csproj --no-build -c Release -r /TestResults --logger "trx;LogFileName=SS-Domain-Tests-TestResults.trx"
+    volumes:
+      - ./TestResults:/TestResults:rw
