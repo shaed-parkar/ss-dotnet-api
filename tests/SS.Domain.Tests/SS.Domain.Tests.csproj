@@ -18,11 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SS.Domain\SS.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="coverage.json" />
+      <ProjectReference Include="..\..\src\SS.Domain\SS.Domain.csproj" />
     </ItemGroup>
 
 </Project>
