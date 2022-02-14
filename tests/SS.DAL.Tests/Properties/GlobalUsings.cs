@@ -1,0 +1,13 @@
+global using FluentAssertions;
+global using NUnit.Framework;
+global using SS.Domain.Enums;
+global using Microsoft.EntityFrameworkCore;
+global using SS.DAL.Commands;
+global using SS.Domain;
+global using SS.DAL.Exceptions;
+global using SS.DAL.Queries;
+global using SS.Tests.Common;
+global using System;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using FizzWare.NBuilder;

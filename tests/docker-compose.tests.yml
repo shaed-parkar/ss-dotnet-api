@@ -1,0 +1,80 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+networks:
+  integration-tests:
+    driver: bridge
+
+services:
+  
+  ss-dotnet-core-api--domain-tests:
+    image: ss.netcore.api-tests
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    entrypoint: /run-domain-tests.sh
+    volumes:
+      - ../TestResults:/TestResults:rw
+      - ../Coverage:/Coverage:rw
+
+  ss-dotnet-core-api--dal-tests:
+    image: ss.netcore.api-tests
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    entrypoint:
+      [
+        "/wait-for-it.sh",
+        "ss-dotnet-core-api-db-testing:1433",
+        "-t",
+        "120",
+        "--",
+        "/run-dal-tests.sh",
+      ]
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SSAuthStore=Data Source=ss-dotnet-core-api-db-testing;Database=SSAuthDb;User Id=SA;Password=R4ndomP@assword;
+    volumes:
+      - ../TestResults:/TestResults:rw
+      - ../Coverage:/Coverage:rw
+    depends_on:
+      - ss-dotnet-core-api-db-testing
+    networks:
+      - integration-tests
+
+  ss-dotnet-core-api--api-tests:
+    image: ss.netcore.api-tests
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    entrypoint:
+      [
+        "/wait-for-it.sh",
+        "ss-dotnet-core-api-db-testing:1433",
+        "-t",
+        "120",
+        "--",
+        "/run-api-tests.sh",
+      ]
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SSAuthStore=Data Source=ss-dotnet-core-api-db-testing;Database=SSAuthDb;User Id=SA;Password=R4ndomP@assword;
+    volumes:
+      - ../TestResults:/TestResults:rw
+      - ../Coverage:/Coverage:rw
+    depends_on:
+      - ss-dotnet-core-api-db-testing
+    networks:
+      - integration-tests
+
+  ss-dotnet-core-api-db-testing:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: ss.netcore.api.sql.testing
+    expose:
+      - 1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=R4ndomP@assword
+    networks:
+      - integration-tests
