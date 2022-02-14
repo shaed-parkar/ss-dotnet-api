@@ -53,21 +53,13 @@ steps:
     inputs:
       testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
       testResultsFiles: '**/*TestResults.trx' 
-      searchFolder: $(System.DefaultWorkingDirectory)/src/TestResults # Optional
+      searchFolder: $(System.DefaultWorkingDirectory)/TestResults # Optional
       #mergeTestResults: false # Optional
       failTaskOnFailedTests: true # Optional
       #testRunTitle: # Optional
       #buildPlatform: # Optional
       #buildConfiguration: # Optional
       #publishRunAttachments: true # Optional
-
-  - task: DotNetCoreCLI@2
-    displayName: Run Tests
-    inputs:
-      command: test
-      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
-      publishTestResults: true
-      projects: "**/*.Tests.csproj"
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage report"
