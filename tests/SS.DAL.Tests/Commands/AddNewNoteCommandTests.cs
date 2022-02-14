@@ -1,20 +1,10 @@
-using System;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using SS.DAL.Commands;
-using SS.DAL.Exceptions;
-using SS.Domain;
-using SS.Domain.Enums;
-
 namespace SS.DAL.Tests.Commands;
 
 public class AddNewNoteCommandTests : DatabaseTestsBase
 {
-    private AddNoteCommandHandler _handler = null!;
     private Author _author;
-    
+    private AddNoteCommandHandler _handler = null!;
+
     [SetUp]
     public void SetUp()
     {
@@ -22,7 +12,7 @@ public class AddNewNoteCommandTests : DatabaseTestsBase
         _handler = new AddNoteCommandHandler(context);
         _author = null;
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -38,14 +28,14 @@ public class AddNewNoteCommandTests : DatabaseTestsBase
     {
         // arrange
         var newNoteCommand = new AddNoteCommand(Guid.NewGuid(), "Test", PriorityLevel.High);
-        
+
         // act
-        Func<Task> f = async () => { await _handler.Handle(newNoteCommand); };
-        
+        var f = async () => { await _handler.Handle(newNoteCommand); };
+
         // assert
         f.Should().ThrowAsync<AuthorNotFoundException>();
     }
-    
+
     [Test]
     public async Task should_add_new_note_to_author()
     {
@@ -54,7 +44,7 @@ public class AddNewNoteCommandTests : DatabaseTestsBase
         var content = "Test Auto";
         var priorityLevel = PriorityLevel.Low;
         var command = new AddNoteCommand(_author.Id, content, priorityLevel);
-        
+
         // act
         await _handler.Handle(command);
 

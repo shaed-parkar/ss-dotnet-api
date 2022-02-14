@@ -1,7 +1,3 @@
-using System;
-using FluentAssertions;
-using NUnit.Framework;
-
 namespace SS.Domain.Tests.AuthorTests;
 
 public class UpdateNameTests

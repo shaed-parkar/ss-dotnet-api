@@ -1,17 +1,10 @@
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using SS.DAL.Commands;
-using SS.Domain;
-
 namespace SS.DAL.Tests.Commands;
 
 public class AddAuthorCommandTests : DatabaseTestsBase
 {
-    private AddAuthorCommandHandler _handler = null!;
     private Author _author;
-    
+    private AddAuthorCommandHandler _handler = null!;
+
     [SetUp]
     public void SetUp()
     {
@@ -26,7 +19,7 @@ public class AddAuthorCommandTests : DatabaseTestsBase
         var firstName = "James";
         var lastName = "Green";
         var command = new AddAuthorCommand(firstName, lastName);
-        
+
         // act
         await _handler.Handle(command);
 
@@ -39,7 +32,7 @@ public class AddAuthorCommandTests : DatabaseTestsBase
 
         command.CreatedAuthor.Should().BeEquivalentTo(_author);
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {

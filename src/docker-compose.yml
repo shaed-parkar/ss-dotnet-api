@@ -12,7 +12,7 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__SSAuthStore,1434=Data Source=ss-dotnet-core-api-db;Database=SSAuthDb;User Id=SA;Password=R4ndomP@assword;
+      - ConnectionStrings__SSAuthStore=Data Source=ss-dotnet-core-api-db,1434;Database=SSAuthDb;User Id=SA;Password=R4ndomP@assword;
       - ASPNETCORE_URLS=http://+:80
     volumes:
       - ~/.vsdbg:/remote_debugger:rw

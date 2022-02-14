@@ -1,17 +1,10 @@
-using System;
-using System.Threading.Tasks;
-using FluentAssertions;
-using NUnit.Framework;
-using SS.DAL.Queries;
-using SS.Domain;
-
 namespace SS.DAL.Tests.Queries;
 
 public class GetAuthorByIdQueryTests : DatabaseTestsBase
 {
-    private GetAuthorByIdQueryHandler _handler = null!;
     private Author _author;
-    
+    private GetAuthorByIdQueryHandler _handler = null!;
+
     [SetUp]
     public void Setup()
     {
@@ -19,7 +12,7 @@ public class GetAuthorByIdQueryTests : DatabaseTestsBase
         _handler = new GetAuthorByIdQueryHandler(context);
         _author = null;
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -29,28 +22,28 @@ public class GetAuthorByIdQueryTests : DatabaseTestsBase
             await TestDataManager.RemoveAuthor(_author.Id);
         }
     }
-    
+
     [Test]
     public async Task should_return_null_when_author_does_not_exist()
     {
         // arrange
         var authorId = Guid.NewGuid();
         var query = new GetAuthorByIdQuery(authorId);
-        
+
         // act
         var result = await _handler.Handle(query);
 
         // assert
         result.Should().BeNull();
     }
-    
+
     [Test]
     public async Task should_return_an_author_when_id_exists()
     {
         // arrange
         _author = await TestDataManager.SeedAuthor();
         var query = new GetAuthorByIdQuery(_author.Id);
-        
+
         // act
         var result = await _handler.Handle(query);
 

@@ -1,20 +1,9 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using FizzWare.NBuilder;
-using FluentAssertions;
-using NUnit.Framework;
-using SS.DAL.Exceptions;
-using SS.DAL.Queries;
-using SS.Domain;
-using SS.Tests.Common;
-
 namespace SS.DAL.Tests.Queries;
 
 public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
 {
-    private GetAllNotesForAuthorQueryHandler _handler = null!;
     private Author _author;
+    private GetAllNotesForAuthorQueryHandler _handler = null!;
 
     [SetUp]
     public void Setup()
@@ -23,7 +12,7 @@ public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
         _handler = new GetAllNotesForAuthorQueryHandler(context);
         _author = null;
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -40,9 +29,9 @@ public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
         // arrange
         var authorId = Guid.NewGuid();
         var query = new GetAllNotesForAuthorQuery(authorId);
-        
+
         // act
-        Func<Task> f = async () => { await _handler.Handle(query); };
+        var f = async () => { await _handler.Handle(query); };
 
         // assert
         f.Should().ThrowAsync<AuthorNotFoundException>().Result
@@ -58,7 +47,7 @@ public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
         await TestDataManager.SeedNotesForAuthor(_author.Id, notes);
 
         var query = new GetAllNotesForAuthorQuery(_author.Id);
-        
+
         // act
         var results = await _handler.Handle(query);
 
@@ -66,5 +55,4 @@ public class GetAllNotesForAuthorQueryTests : DatabaseTestsBase
         results.Should().NotBeNullOrEmpty();
         results.Should().BeEquivalentTo(notes, options => options.Excluding(n => n.Id));
     }
-
 }

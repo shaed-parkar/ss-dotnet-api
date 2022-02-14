@@ -1,7 +1,3 @@
-using FluentAssertions;
-using NUnit.Framework;
-using SS.Domain.Enums;
-
 namespace SS.Domain.Tests.AuthorTests;
 
 public class AddNoteTests

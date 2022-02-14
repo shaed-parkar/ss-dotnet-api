@@ -1,6 +1,18 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
+# Copy wait-for-it.sh into our image
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
+# Make it executable, in Linux
+RUN chmod +x /wait-for-it.sh
+
+COPY ["scripts/tests/run-domain-tests.sh", "/"]
+COPY ["scripts/tests/run-dal-tests.sh", "/"]
+COPY ["scripts/tests/run-api-tests.sh", "/"]
+RUN chmod +x /run-domain-tests.sh
+RUN chmod +x /run-dal-tests.sh
+RUN chmod +x /run-api-tests.sh
+
 # Copy project files to cache layer
 COPY ["src/Api/Api.csproj", "src/Api/"]
 COPY ["src/SS.Api.Contracts/SS.Api.Contracts.csproj", "src/SS.Api.Contracts/"]
@@ -27,4 +39,4 @@ RUN dotnet restore "tests/SS.IntegrationTests.Common/SS.IntegrationTests.Common.
 
 # Add remaining files prone to change
 COPY . .
-RUN dotnet build src/SSApi.sln
+RUN dotnet build src/SSApi.sln -c Release
