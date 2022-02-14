@@ -2,7 +2,12 @@
 
 version: '3.4'
 
+networks:
+  integration-tests:
+    driver: bridge
+
 services:
+  
   ss-dotnet-core-api--domain-tests:
     image: ss.netcore.api-tests
     build:
@@ -35,6 +40,8 @@ services:
       - ../Coverage:/Coverage:rw
     depends_on:
       - ss-dotnet-core-api-db-testing
+    networks:
+      - integration-tests
 
   ss-dotnet-core-api--api-tests:
     image: ss.netcore.api-tests
@@ -58,6 +65,8 @@ services:
       - ../Coverage:/Coverage:rw
     depends_on:
       - ss-dotnet-core-api-db-testing
+    networks:
+      - integration-tests
 
   ss-dotnet-core-api-db-testing:
     image: mcr.microsoft.com/azure-sql-edge
@@ -67,3 +76,5 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=R4ndomP@assword
+    networks:
+      - integration-tests
