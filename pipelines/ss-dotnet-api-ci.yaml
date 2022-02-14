@@ -39,6 +39,27 @@ steps:
       projects: "**/*.csproj"
       arguments: "--configuration $(buildConfiguration)"
 
+  - task: DockerCompose@0
+    displayName: Runs tests
+    inputs:
+      action: Run a Docker Compose command
+      dockerComposeFile: tests/docker-compose.tests.yml
+      projectName: $(Build.Repository.Name)
+      dockerComposeCommand: up
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    inputs:
+      testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+      testResultsFiles: '**/*TestResults.trx' 
+      searchFolder: $(System.DefaultWorkingDirectory)/src/TestResults # Optional
+      #mergeTestResults: false # Optional
+      failTaskOnFailedTests: true # Optional
+      #testRunTitle: # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      #publishRunAttachments: true # Optional
+
   - task: DotNetCoreCLI@2
     displayName: Run Tests
     inputs:
