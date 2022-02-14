@@ -53,13 +53,8 @@ steps:
     inputs:
       testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
       testResultsFiles: '**/*TestResults.trx' 
-      searchFolder: $(System.DefaultWorkingDirectory)/TestResults # Optional
-      #mergeTestResults: false # Optional
-      failTaskOnFailedTests: true # Optional
-      #testRunTitle: # Optional
-      #buildPlatform: # Optional
-      #buildConfiguration: # Optional
-      #publishRunAttachments: true # Optional
+      searchFolder: $(System.DefaultWorkingDirectory)/TestResults
+      failTaskOnFailedTests: false
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage report"
