@@ -1,0 +1,1 @@
+docker-compose -f "tests/docker-compose.tests.yml" up --build --abort-on-container-exit

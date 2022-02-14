@@ -2,6 +2,10 @@
 
 version: '3.4'
 
+networks:
+  ss-net-api-network:
+    driver: bridge
+
 services:
   ss-dotnet-core-api:
     image: ss.netcore.api
@@ -19,12 +23,16 @@ services:
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     depends_on:
       - ss-dotnet-core-api-db
+    networks:
+      - ss-net-api-network
 
   ss-dotnet-core-api-db:
     image: mcr.microsoft.com/azure-sql-edge
     container_name: ss.netcore.api.sql
     ports:
-      - "1434:1433"
+      - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=R4ndomP@assword
+    networks:
+      - ss-net-api-network
