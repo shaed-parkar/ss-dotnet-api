@@ -15,74 +15,77 @@ trigger:
 variables:
   buildConfiguration: "Release"
 
-jobs:
-  - job: API
-    displayName: "Build API"
-    pool:
-      vmImage: 'ubuntu-latest'
-    
-    steps:
-      - task: UseDotNet@2
-        displayName: Use .NET 6.0
-        inputs:
-          packageType: 'sdk'
-          version: '6.0.x'
-  
-      - task: DotNetCoreCLI@2
-        displayName: Restore Packages
-        inputs:
-          command: "restore"
-          projects: "**/*.csproj"
-          workingDirectory:
+stages:
+  - stage: Build
+    displayName: 'Build & Test API'
+    jobs:
+      - job: API
+        displayName: "Build API"
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 6.0
+            inputs:
+              packageType: 'sdk'
+              version: '6.0.x'
+      
+          - task: DotNetCoreCLI@2
+            displayName: Restore Packages
+            inputs:
+              command: "restore"
+              projects: "**/*.csproj"
+              workingDirectory:
 
-      - task: DotNetCoreCLI@2
-        displayName: "Build Projects"
-        inputs:
-          command: "build"
-          projects: "**/*.csproj"
-          arguments: "--configuration $(buildConfiguration)"
+          - task: DotNetCoreCLI@2
+            displayName: "Build Projects"
+            inputs:
+              command: "build"
+              projects: "**/*.csproj"
+              arguments: "--configuration $(buildConfiguration)"
 
-      - task: DotNetCoreCLI@2
-        displayName: Package API
-        inputs:
-          command: publish
-          publishWebProjects: True
-          arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
-          zipAfterPublish: True
+          - task: DotNetCoreCLI@2
+            displayName: Package API
+            inputs:
+              command: publish
+              publishWebProjects: True
+              arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: True
 
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Artifacts
-        inputs:
-          targetPath: "$(Build.ArtifactStagingDirectory)"
-          artifactName: "ss-dotnet-api"
-    
-  - job: Tests
-    displayName: "Test API"
-    pool:
-      vmImage: 'ubuntu-latest'
-    dependsOn: API
-    condition: succeeded()
-    
-    steps:
-      - task: DockerCompose@0
-        displayName: Runs tests
-        inputs:
-          action: Run a Docker Compose command
-          dockerComposeFile: tests/docker-compose.tests.yml
-          projectName: $(Build.Repository.Name)
-          dockerComposeCommand: up
-          arguments: --build --abort-on-container-exit
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Artifacts
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+              artifactName: "ss-dotnet-api"
+      
+      - job: Tests
+        displayName: "Test API"
+        pool:
+          vmImage: 'ubuntu-latest'
+        dependsOn: API
+        condition: succeeded()
+        
+        steps:
+          - task: DockerCompose@0
+            displayName: Runs tests
+            inputs:
+              action: Run a Docker Compose command
+              dockerComposeFile: tests/docker-compose.tests.yml
+              projectName: $(Build.Repository.Name)
+              dockerComposeCommand: up
+              arguments: --build --abort-on-container-exit
 
-      - task: PublishTestResults@2
-        displayName: Publish test results
-        inputs:
-          testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-          testResultsFiles: '**/*TestResults.trx' 
-          searchFolder: $(System.DefaultWorkingDirectory)/TestResults
-          failTaskOnFailedTests: false
+          - task: PublishTestResults@2
+            displayName: Publish test results
+            inputs:
+              testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+              testResultsFiles: '**/*TestResults.trx' 
+              searchFolder: $(System.DefaultWorkingDirectory)/TestResults
+              failTaskOnFailedTests: false
 
-      - task: PublishCodeCoverageResults@1
-        displayName: "Publish code coverage report"
-        inputs:
-          codeCoverageTool: "Cobertura"
-          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish code coverage report"
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
