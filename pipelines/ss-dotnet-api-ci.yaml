@@ -61,6 +61,7 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     dependsOn: API
+    condition: succeeded()
     
     steps:
       - task: DockerCompose@0
