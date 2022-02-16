@@ -29,17 +29,24 @@ dotnet ef database update
 
 ## Tests
 
-### Running all tests
+### Running all tests via CLI
 
 Open a terminal in the same directory as the SSApi Solution and run the following command
 
-`
 ```console
 dotnet test --no-build --logger:trx --results-directory Coverage \
 "/p:CollectCoverage=true" \
 "/p:CoverletOutput=../Coverage/" \
 "/p:MergeWith=../Coverage/coverage.json" \
 "/p:CoverletOutputFormat=\"json,cobertura\"" 
+```
+
+### Running all tests in Docker
+
+Open a terminal at the root level of the repository and run the following command
+
+```console
+docker-compose -f "tests/docker-compose.tests.yml" up --build --abort-on-container-exit
 ```
 
 ## Creating a report
