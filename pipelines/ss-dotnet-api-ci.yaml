@@ -12,67 +12,76 @@ trigger:
     include:
       - main
 
-pool:
-  vmImage: "ubuntu-latest"
-
 variables:
   buildConfiguration: "Release"
 
-steps:
-  - task: UseDotNet@2
-    displayName: Use .NET 6.0
-    inputs:
-      packageType: 'sdk'
-      version: '6.0.x'
+jobs:
+  - job: API
+    displayName: "Build API"
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+      - task: UseDotNet@2
+        displayName: Use .NET 6.0
+        inputs:
+          packageType: 'sdk'
+          version: '6.0.x'
   
-  - task: DotNetCoreCLI@2
-    displayName: Restore Packages
-    inputs:
-      command: "restore"
-      projects: "**/*.csproj"
-      workingDirectory:
+      - task: DotNetCoreCLI@2
+        displayName: Restore Packages
+        inputs:
+          command: "restore"
+          projects: "**/*.csproj"
+          workingDirectory:
 
-  - task: DotNetCoreCLI@2
-    displayName: "Build Projects"
-    inputs:
-      command: "build"
-      projects: "**/*.csproj"
-      arguments: "--configuration $(buildConfiguration)"
+      - task: DotNetCoreCLI@2
+        displayName: "Build Projects"
+        inputs:
+          command: "build"
+          projects: "**/*.csproj"
+          arguments: "--configuration $(buildConfiguration)"
 
-  - task: DockerCompose@0
-    displayName: Runs tests
-    inputs:
-      action: Run a Docker Compose command
-      dockerComposeFile: tests/docker-compose.tests.yml
-      projectName: $(Build.Repository.Name)
-      dockerComposeCommand: up
-      arguments: --build --abort-on-container-exit
+      - task: DotNetCoreCLI@2
+        displayName: Package API
+        inputs:
+          command: publish
+          publishWebProjects: True
+          arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+          zipAfterPublish: True
 
-  - task: PublishTestResults@2
-    displayName: Publish test results
-    inputs:
-      testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-      testResultsFiles: '**/*TestResults.trx' 
-      searchFolder: $(System.DefaultWorkingDirectory)/TestResults
-      failTaskOnFailedTests: false
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Artifacts
+        inputs:
+          targetPath: "$(Build.ArtifactStagingDirectory)"
+          artifactName: "ss-dotnet-api"
+    
+  - job: Tests
+    displayName: "Test API"
+    pool:
+      vmImage: 'ubuntu-latest'
+    dependsOn: API
+    
+    steps:
+      - task: DockerCompose@0
+        displayName: Runs tests
+        inputs:
+          action: Run a Docker Compose command
+          dockerComposeFile: tests/docker-compose.tests.yml
+          projectName: $(Build.Repository.Name)
+          dockerComposeCommand: up
+          arguments: --build --abort-on-container-exit
 
-  - task: PublishCodeCoverageResults@1
-    displayName: "Publish code coverage report"
-    inputs:
-      codeCoverageTool: "Cobertura"
-      summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
+      - task: PublishTestResults@2
+        displayName: Publish test results
+        inputs:
+          testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: '**/*TestResults.trx' 
+          searchFolder: $(System.DefaultWorkingDirectory)/TestResults
+          failTaskOnFailedTests: false
 
-  - task: DotNetCoreCLI@2
-    displayName: Package API
-    inputs:
-      command: publish
-      publishWebProjects: True
-      arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)"
-      zipAfterPublish: True
-
-    # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: "$(Build.ArtifactStagingDirectory)"
-      artifactName: "ss-dotnet-api"
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish code coverage report"
+        inputs:
+          codeCoverageTool: "Cobertura"
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
