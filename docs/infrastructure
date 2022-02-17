@@ -1,0 +1,11 @@
+# Infrastructure
+
+The infrastructure is managed using Pulumi.
+
+## Retrieving config
+
+Execute the command below inside of a terminal to retrieve the config for a given stack
+
+```console
+pulumi config refresh -s <stack name>
+```
