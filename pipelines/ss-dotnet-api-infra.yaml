@@ -7,7 +7,7 @@ trigger:
       - infrastructure
 
 variables:
-  buildConfiguration: "Release"
+  - group: general
 
 stages:
   - stage: Infrastructure
@@ -21,6 +21,7 @@ stages:
         steps:
           - task: Pulumi@1
             inputs:
+              azureSubscription: $(subscription)
               command: "up"
               args: "--yes"
               cwd: "infrastructure"
