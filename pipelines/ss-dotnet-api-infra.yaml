@@ -29,7 +29,16 @@ stages:
               stack: 'staging'
 
           - task: Pulumi@1
+            displayName: "Preview Pulumi"
+            inputs:
+              azureSubscription: $(subscription)
+              command: "preview"
+              cwd: "infrastructure"
+              stack: "staging"
+
+          - task: Pulumi@1
             displayName: "Run Pulumi"
+            condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
             inputs:
               azureSubscription: $(subscription)
               command: "up"
