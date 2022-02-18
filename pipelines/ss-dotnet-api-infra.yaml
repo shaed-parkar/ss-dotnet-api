@@ -19,17 +19,20 @@ stages:
           vmImage: "ubuntu-latest"
 
         steps:
-          - task: UseDotNet@2
-            displayName: Use .NET 6.0
+          - task: Pulumi@1
+            displayName: "Get config"
             inputs:
-              packageType: 'sdk'
-              version: '5.0.x'
+              azureSubscription: 'BizSpark'
+              command: 'config'
+              args: 'refresh'
+              cwd: 'infrastructure'
+              stack: 'staging'
 
           - task: Pulumi@1
+            displayName: "Run Pulumi"
             inputs:
               azureSubscription: $(subscription)
               command: "up"
               args: "--yes"
               cwd: "infrastructure"
               stack: "staging"
-              createStack: true
