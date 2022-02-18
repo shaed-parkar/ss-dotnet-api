@@ -1,0 +1,28 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - infrastructure
+
+variables:
+  buildConfiguration: "Release"
+
+stages:
+  - stage: Infrastructure
+    displayName: "Update infrastructure"
+    jobs:
+      - job: Pulumi
+        displayName: "Run Pulumi"
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: Pulumi@1
+            inputs:
+              command: "up"
+              args: "--yes"
+              cwd: "infrastructure"
+              stack: "staging"
+              createStack: true
