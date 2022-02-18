@@ -19,6 +19,12 @@ stages:
           vmImage: "ubuntu-latest"
 
         steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 6.0
+            inputs:
+              packageType: 'sdk'
+              version: '5.0.x'
+
           - task: Pulumi@1
             inputs:
               azureSubscription: $(subscription)
