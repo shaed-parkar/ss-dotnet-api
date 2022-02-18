@@ -3,14 +3,24 @@ pr:
     include:
       - main
       - feature/*
+  paths:
     exclude:
       - scripts
+    include:
+      - src
+      - tests
   drafts: false
 
 trigger:
   branches:
     include:
       - main
+  paths:
+    exclude:
+      - scripts
+    include:
+      - src
+      - tests
 
 variables:
   buildConfiguration: "Release"
@@ -58,6 +68,8 @@ stages:
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
               artifactName: "ss-dotnet-api"
+          
+          - task: pulum
       
       - job: Tests
         displayName: "Test API"

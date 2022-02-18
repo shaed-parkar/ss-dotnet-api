@@ -36,6 +36,11 @@ create_ci_pipeline() {
     az pipelines create --name 'ss-dotnet-api-ci' --description 'CI pipeline for ss-dotnet-api-ci' --repository 'https://github.com/shaed-parkar/ss-dotnet-api' --repository-type github --skip-first-run --branch 'main' --yaml-path 'pipelines/ss-dotnet-api-ci.yaml'
 }
 
+create_infra_pipeline() {
+    echo "Creating pipeline for ss-dotnet-api-infra"
+    az pipelines create --name 'ss-dotnet-api-infra' --description 'CI pipeline for ss-dotnet-api-infra' --repository 'https://github.com/shaed-parkar/ss-dotnet-api' --repository-type github --skip-first-run --branch 'main' --yaml-path 'pipelines/ss-dotnet-api-infra.yaml'
+}
+
 check_az_devops_cli_installed
-create_ci_pipeline ss-dotnet-api-ci
+create_infra_pipeline
 create_ci_pipeline ss-dotnet-api-ci
