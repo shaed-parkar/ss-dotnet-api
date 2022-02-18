@@ -10,8 +10,8 @@ variables:
   - group: general
 
 stages:
-  - stage: Infrastructure
-    displayName: "Update infrastructure"
+  - stage: Staging
+    displayName: "Deploy Staging Infrastructure"
     jobs:
       - job: Pulumi
         displayName: "Run Pulumi"
@@ -22,7 +22,7 @@ stages:
           - task: Pulumi@1
             displayName: "Get config"
             inputs:
-              azureSubscription: 'BizSpark'
+              azureSubscription: $(subscription)
               command: 'config'
               args: 'refresh'
               cwd: 'infrastructure'
@@ -45,3 +45,41 @@ stages:
               args: "--yes"
               cwd: "infrastructure"
               stack: "staging"
+    
+  - stage: Production
+    displayName: "Deploy Production Infrastructure"
+    dependsOn: Staging
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'))
+    jobs:
+      - job: Pulumi
+        displayName: "Run Pulumi"
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: Pulumi@1
+            displayName: "Get config"
+            inputs:
+              azureSubscription: $(subscription)
+              command: 'config'
+              args: 'refresh'
+              cwd: 'infrastructure'
+              stack: 'production'
+
+          - task: Pulumi@1
+            displayName: "Preview Pulumi"
+            inputs:
+              azureSubscription: $(subscription)
+              command: "preview"
+              cwd: "infrastructure"
+              stack: "production"
+
+          - task: Pulumi@1
+            displayName: "Run Pulumi"
+            condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+            inputs:
+              azureSubscription: $(subscription)
+              command: "up"
+              args: "--yes"
+              cwd: "infrastructure"
+              stack: "production"
