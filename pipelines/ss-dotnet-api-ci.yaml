@@ -131,7 +131,7 @@ stages:
                     azureSubscription: $(subscription)
                     resourceGroupName: $(resourcegroup_staging)
                     appType: webApp
-                    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+                    package: '$(Pipeline.Workspace)/**/*.zip'
                     appName: ss-dotnet-api-staging
           
   - stage: Production
@@ -164,7 +164,7 @@ stages:
                     azureSubscription: $(subscription)
                     resourceGroupName: $(resourcegroup_production)
                     appType: webApp
-                    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+                    package: '$(Pipeline.Workspace)/**/*.zip'
                     appName: ss-dotnet-api-production
 
           
