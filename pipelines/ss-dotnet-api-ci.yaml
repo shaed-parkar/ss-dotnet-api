@@ -132,7 +132,7 @@ stages:
                     resourceGroupName: $(resourcegroup_staging)
                     appType: webApp
                     package: '$(Pipeline.Workspace)/**/*.zip'
-                    appName: ss-dotnet-api-staging
+                    appName: ss-dotnet-api-app-staging
           
   - stage: Production
     displayName: 'Deploy to Production'
@@ -165,6 +165,6 @@ stages:
                     resourceGroupName: $(resourcegroup_production)
                     appType: webApp
                     package: '$(Pipeline.Workspace)/**/*.zip'
-                    appName: ss-dotnet-api-production
+                    appName: ss-dotnet-api-app-production
 
           
