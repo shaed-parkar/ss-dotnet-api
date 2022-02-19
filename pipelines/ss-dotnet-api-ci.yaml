@@ -70,8 +70,6 @@ stages:
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
               artifactName: "ss-dotnet-api"
-          
-          - task: pulum
       
       - job: Tests
         displayName: "Test API"
