@@ -133,9 +133,6 @@ stages:
                     azureSubscription: $(subscription)
                     appType: 'webApp'
                     appName: $(api_app_name_staging)
-                    deployToSlotOrASE: true
-                    resourceGroupName: $(resourcegroup_staging)
-                    slotName: 'production'
                     package: '$(Pipeline.Workspace)/**/*.zip'
                     deploymentMethod: 'auto'
           
@@ -171,9 +168,6 @@ stages:
                     azureSubscription: $(subscription)
                     appType: 'webApp'
                     appName: $(api_app_name_production)
-                    deployToSlotOrASE: true
-                    resourceGroupName: $(resourcegroup_production)
-                    slotName: 'production'
                     package: '$(Pipeline.Workspace)/**/*.zip'
                     deploymentMethod: 'auto'
 
