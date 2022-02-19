@@ -51,8 +51,7 @@ class AppServiceStack : Stack
             ResourceGroupName = resourceGroup.Name,
             AdministratorLogin = username,
             AdministratorLoginPassword = password,
-            Version = "12.0",
-            ServerName = $"{appName}-sqlserver-{stackName}"
+            Version = "12.0"
         });
 
         var database = new Database($"{appName}-db-{stackName}", new DatabaseArgs
@@ -62,8 +61,7 @@ class AppServiceStack : Stack
             Sku = new SkuArgs
             {
                 Name = "S0"
-            },
-            DatabaseName = $"{appName}-db-{stackName}"
+            }
         });
 
         var app = new WebApp($"{appName}-app-{stackName}", new WebAppArgs

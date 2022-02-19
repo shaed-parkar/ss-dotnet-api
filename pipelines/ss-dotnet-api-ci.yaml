@@ -106,6 +106,13 @@ stages:
     displayName: 'Deploy to Staging'
     dependsOn: 'Build'
     jobs:
+      - job:
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'ss-dotnet-api'
+            path: $(Build.DefaultWorkingDirectory)/app
+
       - deployment: deploy
         displayName: 'Deploy to Staging'
         pool:
@@ -122,12 +129,20 @@ stages:
                     azureSubscription: $(subscription)
                     resourceGroupName: $(resourcegroup_staging)
                     appType: webApp
+                    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
                     appName: ss-dotnet-api-staging
           
   - stage: Production
     displayName: 'Deploy to Production'
     dependsOn: 'Build'
     jobs:
+      - job:
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'ss-dotnet-api'
+            path: $(Build.DefaultWorkingDirectory)/app
+
       - deployment: deploy
         displayName: 'Deploy to Production'
         pool:
@@ -144,6 +159,7 @@ stages:
                     azureSubscription: $(subscription)
                     resourceGroupName: $(resourcegroup_production)
                     appType: webApp
+                    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
                     appName: ss-dotnet-api-production
 
           
