@@ -23,7 +23,9 @@ trigger:
       - tests
 
 variables:
-  buildConfiguration: "Release"
+  - name: "buildConfiguration"
+    value: "Release"
+  - group: general
 
 stages:
   - stage: Build
@@ -101,3 +103,27 @@ stages:
             inputs:
               codeCoverageTool: "Cobertura"
               summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
+
+  - stage: Staging
+    displayName: 'Deploy to Staging'
+    dependsOn: 'Build'
+    jobs:
+      - deployment: deploy
+        displayName: 'Deploy to Staging'
+        pool:
+          vmImage: 'ubuntu-latest'
+          workspace:
+            clean: all
+        environment: staging
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: $(subscription)
+                    resourceGroupName: $(resourcegroup_staging)
+                    appType: webApp
+                    appName: ss-dotnet-api-staging
+
+          
