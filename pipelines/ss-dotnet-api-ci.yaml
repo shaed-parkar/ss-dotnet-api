@@ -111,7 +111,9 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download artifact'
           inputs:
-            artifact: App
+            buildType: 'current'
+            artifactName: 'App'
+            itemPattern: '**/*.zip'
             path: $(Pipeline.Workspace)/App
             preferTriggeringPipeline: true
 
@@ -144,7 +146,9 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download artifact'
           inputs:
-            artifact: App
+            buildType: 'current'
+            artifactName: 'App'
+            itemPattern: '**/*.zip'
             path: $(Pipeline.Workspace)/App
             preferTriggeringPipeline: true
 
