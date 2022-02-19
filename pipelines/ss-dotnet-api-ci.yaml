@@ -69,7 +69,7 @@ stages:
             displayName: Publish Artifacts
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
-              artifactName: "ss-dotnet-api"
+              artifactName: "App"
       
       - job: Tests
         displayName: "Test API"
@@ -111,8 +111,9 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download artifact'
           inputs:
-            artifact: 'ss-dotnet-api'
-            path: $(Build.DefaultWorkingDirectory)/app
+            artifact: App
+            path: $(Pipeline.Workspace)/App
+            preferTriggeringPipeline: true
 
       - deployment: deploy
         displayName: 'Deploy to Staging'
@@ -143,8 +144,9 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download artifact'
           inputs:
-            artifact: 'ss-dotnet-api'
-            path: $(Build.DefaultWorkingDirectory)/app
+            artifact: App
+            path: $(Pipeline.Workspace)/App
+            preferTriggeringPipeline: true
 
       - deployment: deploy
         displayName: 'Deploy to Production'
