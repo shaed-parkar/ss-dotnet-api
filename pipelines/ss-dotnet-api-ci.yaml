@@ -131,10 +131,13 @@ stages:
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: $(subscription)
+                    appType: 'webApp'
+                    appName: $(api_app_name_staging)
+                    deployToSlotOrASE: true
                     resourceGroupName: $(resourcegroup_staging)
-                    appType: webApp
+                    slotName: 'production'
                     package: '$(Pipeline.Workspace)/**/*.zip'
-                    appName: ss-dotnet-api-app-staging
+                    deploymentMethod: 'auto'
           
   - stage: Production
     displayName: 'Deploy to Production'
@@ -166,9 +169,12 @@ stages:
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: $(subscription)
+                    appType: 'webApp'
+                    appName: $(api_app_name_production)
+                    deployToSlotOrASE: true
                     resourceGroupName: $(resourcegroup_production)
-                    appType: webApp
+                    slotName: 'production'
                     package: '$(Pipeline.Workspace)/**/*.zip'
-                    appName: ss-dotnet-api-app-production
+                    deploymentMethod: 'auto'
 
           
