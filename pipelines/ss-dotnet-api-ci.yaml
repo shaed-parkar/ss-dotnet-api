@@ -109,6 +109,7 @@ stages:
       - job:
         steps:
         - task: DownloadPipelineArtifact@2
+          displayName: 'Download artifact'
           inputs:
             artifact: 'ss-dotnet-api'
             path: $(Build.DefaultWorkingDirectory)/app
@@ -135,10 +136,12 @@ stages:
   - stage: Production
     displayName: 'Deploy to Production'
     dependsOn: 'Build'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     jobs:
       - job:
         steps:
         - task: DownloadPipelineArtifact@2
+          displayName: 'Download artifact'
           inputs:
             artifact: 'ss-dotnet-api'
             path: $(Build.DefaultWorkingDirectory)/app
