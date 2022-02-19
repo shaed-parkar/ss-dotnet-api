@@ -124,7 +124,7 @@ stages:
                     appType: webApp
                     appName: ss-dotnet-api-staging
           
-  - stage: Staging
+  - stage: Production
     displayName: 'Deploy to Production'
     dependsOn: 'Build'
     jobs:
