@@ -101,7 +101,8 @@ class AppServiceStack : Stack
                         Type = ConnectionStringType.SQLAzure,
                         ConnectionString = dbConnectionString
                     },
-                }
+                },
+                HealthCheckPath = "/health"
             }
         });
         
