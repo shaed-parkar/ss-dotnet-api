@@ -35,6 +35,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["ApplicationInsights:InstrumentationKey"]);
+
 builder.Services.AddDbContext<AuthStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(AppConstants.AuthStoreDbName)));
 
@@ -43,11 +44,11 @@ var app = builder.Build();
 app.RunLatestMigrations();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI(options => options.DocumentTitle = "SS API");
-}
+// }
 
 // app.UseHttpsRedirection();
 app.UseRouting().UseEndpoints(endpoints =>
