@@ -108,7 +108,7 @@ stages:
     displayName: "Deploy to Staging"
     dependsOn: "Build"
     jobs:
-      - template: ./templates/stages/jobs/deploy-azure-web-app.yaml
+      - template: pipelines/templates/stages/jobs/deploy-azure-web-app.yaml
         parameters:
           poolName: $(PoolName)
           subscription: $(subscription)
