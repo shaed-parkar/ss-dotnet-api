@@ -19,12 +19,14 @@ parameters:
 
   - name: appType
     type: string
+    default: "webApp"
 
   - name: appName
     type: string
 
   - name: appPackage
     type: string
+    default: "$(Pipeline.Workspace)/**/*.zip"
 
 jobs:
   - job: DownloadArtifacts

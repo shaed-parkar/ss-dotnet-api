@@ -113,11 +113,7 @@ stages:
           poolName: $(PoolName)
           subscription: $(subscription)
           environmentName: "Staging"
-          artifactName: "App"
-          artifactItemPattern: "**/*.zip"
-          appType: "webApp"
           appName: $(api_app_name_staging)
-          appPackage: "$(Pipeline.Workspace)/**/*.zip"
 
   - stage: Production
     displayName: "Deploy to Production"
