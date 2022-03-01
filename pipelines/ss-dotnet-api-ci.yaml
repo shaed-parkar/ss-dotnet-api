@@ -119,32 +119,9 @@ stages:
     dependsOn: "Build"
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     jobs:
-      - job:
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: "Download artifact"
-            inputs:
-              buildType: "current"
-              artifactName: "App"
-              itemPattern: "**/*.zip"
-              path: $(Pipeline.Workspace)/App
-              preferTriggeringPipeline: true
-
-      - deployment: deploy
-        displayName: "Deploy to Production"
-        pool:
-          vmImage: $(PoolName)
-          workspace:
-            clean: all
-        environment: Production
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: AzureWebApp@1
-                  inputs:
-                    azureSubscription: $(subscription)
-                    appType: "webApp"
-                    appName: $(api_app_name_production)
-                    package: "$(Pipeline.Workspace)/**/*.zip"
-                    deploymentMethod: "auto"
+      - template: templates/stages/jobs/deploy-azure-web-app.yaml
+        parameters:
+          poolName: $(PoolName)
+          subscription: $(subscription)
+          environmentName: "Production"
+          appName: $(api_app_name_production)
