@@ -117,7 +117,7 @@ stages:
           artifactItemPattern: "**/*.zip"
           appType: "webApp"
           appName: $(api_app_name_staging)
-          package: "$(Pipeline.Workspace)/**/*.zip"
+          appPackage: "$(Pipeline.Workspace)/**/*.zip"
 
   - stage: Production
     displayName: "Deploy to Production"
