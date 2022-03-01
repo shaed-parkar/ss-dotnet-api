@@ -11,7 +11,7 @@ parameters:
 
   - name: artifactName
     type: string
-    default: App
+    default: "App"
 
   - name: artifactItemPattern
     type: string
@@ -27,7 +27,7 @@ parameters:
     type: string
 
 jobs:
-  - job: Download-Artifacts
+  - job: DownloadArtifacts
     displayName: "Download Artifacts"
     pool:
       vmImage: ${{ parameters.poolName }}
