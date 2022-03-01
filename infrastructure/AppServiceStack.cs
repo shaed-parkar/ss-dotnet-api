@@ -1,8 +1,5 @@
 using Pulumi;
-using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Insights;
-using Pulumi.AzureNative.KeyVault;
-using Pulumi.AzureNative.KeyVault.Inputs;
 using Pulumi.AzureNative.Resources;
 using Pulumi.AzureNative.Sql;
 using Pulumi.AzureNative.Web;
@@ -64,6 +61,13 @@ class AppServiceStack : Stack
             }
         });
 
+        var dbConnectionString = Output.Tuple(sqlServer.Name, database.Name, password).Apply(t =>
+        {
+            var (server, dbName, pwd) = t;
+            return
+                $"Server={server}.database.windows.net;Database={dbName};User Id={username};Password={pwd};Min Pool Size=0;Max Pool Size=30;Persist Security Info=true;";
+        });
+
         var app = new WebApp($"{appName}-app-{stackName}", new WebAppArgs
         {
             Name = $"{appName}-app-{stackName}",
@@ -93,19 +97,15 @@ class AppServiceStack : Stack
                 {
                     new ConnStringInfoArgs
                     {
-                        Name = "db",
+                        Name = "SSAuthStore",
                         Type = ConnectionStringType.SQLAzure,
-                        ConnectionString = Output.Tuple(sqlServer.Name, database.Name, password).Apply(t =>
-                        {
-                            var (server, dbName, pwd) = t;
-                            return
-                                $"Server= tcp:{server}.database.windows.net;initial catalog={dbName};userID={username};password={pwd};Min Pool Size=0;Max Pool Size=30;Persist Security Info=true;";
-                        }),
+                        ConnectionString = dbConnectionString
                     },
                 },
-            },
+                HealthCheckPath = "/health"
+            }
         });
-
+        
         Endpoint = app.DefaultHostName;
     }
 }

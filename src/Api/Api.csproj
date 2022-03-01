@@ -31,4 +31,11 @@
       <Folder Include="Middleware\Validation" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="web.config">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

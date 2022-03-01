@@ -1,85 +1,25 @@
-trigger:
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - infrastructure
-
 variables:
+  - name: "PoolName"
+    value: "ubuntu-latest"
   - group: general
 
 stages:
   - stage: Staging
     displayName: "Deploy Staging Infrastructure"
     jobs:
-      - job: Pulumi
-        displayName: "Run Pulumi"
-        pool:
-          vmImage: "ubuntu-latest"
-
-        steps:
-          - task: Pulumi@1
-            displayName: "Get config"
-            inputs:
-              azureSubscription: $(subscription)
-              command: 'config'
-              args: 'refresh'
-              cwd: 'infrastructure'
-              stack: 'staging'
-
-          - task: Pulumi@1
-            displayName: "Preview Pulumi"
-            inputs:
-              azureSubscription: $(subscription)
-              command: "preview"
-              cwd: "infrastructure"
-              stack: "staging"
-
-          - task: Pulumi@1
-            displayName: "Run Pulumi"
-            condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-            inputs:
-              azureSubscription: $(subscription)
-              command: "up"
-              args: "--yes"
-              cwd: "infrastructure"
-              stack: "staging"
+      - template: templates/stages/jobs/run-pulumi.yaml
+        parameters:
+          poolName: $(PoolName)
+          subscription: $(subscription)
+          environmentName: "staging"
     
   - stage: Production
     displayName: "Deploy Production Infrastructure"
     dependsOn: Staging
     condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'))
     jobs:
-      - job: Pulumi
-        displayName: "Run Pulumi"
-        pool:
-          vmImage: "ubuntu-latest"
-
-        steps:
-          - task: Pulumi@1
-            displayName: "Get config"
-            inputs:
-              azureSubscription: $(subscription)
-              command: 'config'
-              args: 'refresh'
-              cwd: 'infrastructure'
-              stack: 'production'
-
-          - task: Pulumi@1
-            displayName: "Preview Pulumi"
-            inputs:
-              azureSubscription: $(subscription)
-              command: "preview"
-              cwd: "infrastructure"
-              stack: "production"
-
-          - task: Pulumi@1
-            displayName: "Run Pulumi"
-            condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-            inputs:
-              azureSubscription: $(subscription)
-              command: "up"
-              args: "--yes"
-              cwd: "infrastructure"
-              stack: "production"
+      - template: templates/stages/jobs/run-pulumi.yaml
+        parameters:
+          poolName: $(PoolName)
+          subscription: $(subscription)
+          environmentName: "production"
