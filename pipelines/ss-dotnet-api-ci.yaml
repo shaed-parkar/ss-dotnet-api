@@ -23,26 +23,28 @@ trigger:
       - tests
 
 variables:
-  - name: "buildConfiguration"
+  - name: "BuildConfiguration"
     value: "Release"
+  - name: "PoolName"
+    value: "ubuntu-latest"
   - group: general
 
 stages:
   - stage: Build
-    displayName: 'Build & Test API'
+    displayName: "Build & Test API"
     jobs:
       - job: API
         displayName: "Build API"
         pool:
-          vmImage: 'ubuntu-latest'
-        
+          vmImage: $(PoolName)
+
         steps:
           - task: UseDotNet@2
             displayName: Use .NET 6.0
             inputs:
-              packageType: 'sdk'
-              version: '6.0.x'
-      
+              packageType: "sdk"
+              version: "6.0.x"
+
           - task: DotNetCoreCLI@2
             displayName: Restore Packages
             inputs:
@@ -55,7 +57,7 @@ stages:
             inputs:
               command: "build"
               projects: "**/*.csproj"
-              arguments: "--no-restore --configuration $(buildConfiguration)"
+              arguments: "--no-restore --configuration $(BuildConfiguration)"
 
           - task: DotNetCoreCLI@2
             displayName: Package API
@@ -70,14 +72,14 @@ stages:
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
               artifactName: "App"
-      
+
       - job: Tests
         displayName: "Test API"
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: $(PoolName)
         dependsOn: API
         condition: succeeded()
-        
+
         steps:
           - task: DockerCompose@0
             displayName: Runs tests
@@ -91,8 +93,8 @@ stages:
           - task: PublishTestResults@2
             displayName: Publish test results
             inputs:
-              testResultsFormat: 'VSTest' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-              testResultsFiles: '**/*TestResults.trx' 
+              testResultsFormat: "VSTest" # Options: JUnit, NUnit, VSTest, xUnit, cTest
+              testResultsFiles: "**/*TestResults.trx"
               searchFolder: $(System.DefaultWorkingDirectory)/TestResults
               failTaskOnFailedTests: false
 
@@ -103,24 +105,28 @@ stages:
               summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml"
 
   - stage: Staging
-    displayName: 'Deploy to Staging'
-    dependsOn: 'Build'
+    displayName: "Deploy to Staging"
+    dependsOn: "Build"
     jobs:
-      - job:
+      - job: Download-Artifacts
+        displayName: "Download Artifacts"
+        pool:
+          vmImage: $(PoolName)
+
         steps:
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download artifact'
-          inputs:
-            buildType: 'current'
-            artifactName: 'App'
-            itemPattern: '**/*.zip'
-            path: $(Pipeline.Workspace)/App
-            preferTriggeringPipeline: true
+          - task: DownloadPipelineArtifact@2
+            displayName: "Download artifact"
+            inputs:
+              buildType: "current"
+              artifactName: "App"
+              itemPattern: "**/*.zip"
+              path: $(Pipeline.Workspace)/App
+              preferTriggeringPipeline: true
 
       - deployment: deploy
-        displayName: 'Deploy to Staging'
+        displayName: "Deploy to Staging"
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: $(PoolName)
           workspace:
             clean: all
         environment: Staging
@@ -131,31 +137,31 @@ stages:
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: $(subscription)
-                    appType: 'webApp'
+                    appType: "webApp"
                     appName: $(api_app_name_staging)
-                    package: '$(Pipeline.Workspace)/**/*.zip'
-                    deploymentMethod: 'auto'
-          
+                    package: "$(Pipeline.Workspace)/**/*.zip"
+                    deploymentMethod: "auto"
+
   - stage: Production
-    displayName: 'Deploy to Production'
-    dependsOn: 'Build'
+    displayName: "Deploy to Production"
+    dependsOn: "Build"
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     jobs:
       - job:
         steps:
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download artifact'
-          inputs:
-            buildType: 'current'
-            artifactName: 'App'
-            itemPattern: '**/*.zip'
-            path: $(Pipeline.Workspace)/App
-            preferTriggeringPipeline: true
+          - task: DownloadPipelineArtifact@2
+            displayName: "Download artifact"
+            inputs:
+              buildType: "current"
+              artifactName: "App"
+              itemPattern: "**/*.zip"
+              path: $(Pipeline.Workspace)/App
+              preferTriggeringPipeline: true
 
       - deployment: deploy
-        displayName: 'Deploy to Production'
+        displayName: "Deploy to Production"
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: $(PoolName)
           workspace:
             clean: all
         environment: Production
@@ -166,9 +172,7 @@ stages:
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: $(subscription)
-                    appType: 'webApp'
+                    appType: "webApp"
                     appName: $(api_app_name_production)
-                    package: '$(Pipeline.Workspace)/**/*.zip'
-                    deploymentMethod: 'auto'
-
-          
+                    package: "$(Pipeline.Workspace)/**/*.zip"
+                    deploymentMethod: "auto"
