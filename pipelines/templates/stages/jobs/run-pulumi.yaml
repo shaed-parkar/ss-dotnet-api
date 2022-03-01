@@ -1,0 +1,43 @@
+parameters:
+  - name: poolName
+    type: string
+    default: ubuntu-latest
+
+  - name: subscription
+    type: string
+
+  - name: environmentName
+    type: string
+
+jobs:
+  - job: Pulumi
+    displayName: "Run Pulumi"
+    pool:
+      vmImage: ${{ parameters.poolName }}
+
+    steps:
+      - task: Pulumi@1
+        displayName: "Get config"
+        inputs:
+          azureSubscription: ${{ parameters.subscription }}
+          command: "config"
+          args: "refresh"
+          cwd: "infrastructure"
+          stack: ${{ parameters.environmentName }}
+
+      - task: Pulumi@1
+        displayName: "Preview Pulumi"
+        inputs:
+          azureSubscription: ${{ parameters.subscription }}
+          command: "preview"
+          cwd: "infrastructure"
+          stack: ${{ parameters.environmentName }}
+
+      - task: Pulumi@1
+        displayName: "Run Pulumi"
+        inputs:
+          azureSubscription: ${{ parameters.subscription }}
+          command: "up"
+          args: "--yes"
+          cwd: "infrastructure"
+          stack: ${{ parameters.environmentName }}
