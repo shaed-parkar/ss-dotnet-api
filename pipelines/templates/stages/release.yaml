@@ -1,0 +1,56 @@
+parameters:
+  - name: poolName
+    type: string
+    default: ubuntu-latest
+
+  - name: subscription
+    type: string
+
+  - name: environmentName
+    type: string
+
+  - name: artifactName
+    type: string
+    default: App
+
+  - name: artifactItemPattern
+    type: string
+    default: "**/*.zip"
+
+  - name: appType
+    type: string
+
+  - name: appName
+    type: string
+
+  - name: appPackage
+    type: string
+
+  - name: dependantStages
+    type: object
+    default: []
+
+  - name: condition
+    type: string
+    default: ""
+
+stages:
+  - stage: ${{ parameters.environmentName }}
+    displayName: ${{ parameters.environmentName }}
+    ${{ if ne(parameters.condition, '') }}:
+      condition: ${{ parameters.condition }}
+    dependsOn:
+      - ${{ if parameters.dependantStages }}:
+          - ${{ parameters.dependantStages }}
+
+    jobs:
+      - template: ./jobs/release.yaml
+        parameters:
+          poolName: ${{ parameters.poolName }}
+          subscription: ${{ parameters.subscription }}
+          environmentName: ${{ parameters.environmentName }}
+          artifactName: ${{ parameters.artifactName }}
+          artifactItemPattern: ${{ parameters.artifactItemPattern }}
+          appType: ${{ parameters.appType }}
+          appName: ${{ parameters.appName }}
+          appPackage: ${{ parameters.appPackage }}

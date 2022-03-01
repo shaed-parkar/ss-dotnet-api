@@ -1,0 +1,62 @@
+parameters:
+  - name: poolName
+    type: string
+    default: ubuntu-latest
+
+  - name: subscription
+    type: string
+
+  - name: environmentName
+    type: string
+
+  - name: artifactName
+    type: string
+    default: App
+
+  - name: artifactItemPattern
+    type: string
+    default: "**/*.zip"
+
+  - name: appType
+    type: string
+
+  - name: appName
+    type: string
+
+  - name: appPackage
+    type: string
+
+jobs:
+  - job: Download-Artifacts
+    displayName: "Download Artifacts"
+    pool:
+      vmImage: ${{ parameters.poolName }}
+
+    steps:
+      - task: DownloadPipelineArtifact@2
+        displayName: "Download artifact"
+        inputs:
+          buildType: "current"
+          artifactName: ${{ parameters.artifactName }}
+          itemPattern: ${{ parameters.itemPattern }}
+          path: $(Pipeline.Workspace)/App
+          preferTriggeringPipeline: true
+
+  - deployment: deploy
+    displayName: "Deploy to ${{ parameters.environmentName }}"
+    pool:
+      vmImage: ${{ parameters.poolName }}
+      workspace:
+        clean: all
+    environment: ${{ parameters.environmentName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureWebApp@1
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: ${{ parameters.appType }}
+                appName: ${{ parameters.appName }}
+                package: ${{ parameters.appPackage }}
+                deploymentMethod: "auto"
