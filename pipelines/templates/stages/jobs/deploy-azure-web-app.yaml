@@ -38,7 +38,7 @@ jobs:
         inputs:
           buildType: "current"
           artifactName: ${{ parameters.artifactName }}
-          itemPattern: ${{ parameters.itemPattern }}
+          itemPattern: ${{ parameters.artifactItemPattern }}
           path: $(Pipeline.Workspace)/App
           preferTriggeringPipeline: true
 
