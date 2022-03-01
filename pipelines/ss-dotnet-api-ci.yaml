@@ -108,39 +108,16 @@ stages:
     displayName: "Deploy to Staging"
     dependsOn: "Build"
     jobs:
-      - job: Download-Artifacts
-        displayName: "Download Artifacts"
-        pool:
-          vmImage: $(PoolName)
-
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: "Download artifact"
-            inputs:
-              buildType: "current"
-              artifactName: "App"
-              itemPattern: "**/*.zip"
-              path: $(Pipeline.Workspace)/App
-              preferTriggeringPipeline: true
-
-      - deployment: deploy
-        displayName: "Deploy to Staging"
-        pool:
-          vmImage: $(PoolName)
-          workspace:
-            clean: all
-        environment: Staging
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: AzureWebApp@1
-                  inputs:
-                    azureSubscription: $(subscription)
-                    appType: "webApp"
-                    appName: $(api_app_name_staging)
-                    package: "$(Pipeline.Workspace)/**/*.zip"
-                    deploymentMethod: "auto"
+      - template: ./templates/stages/deploy-azure-web-app.yaml
+        parameters:
+          poolName: $(PoolName)
+          subscription: $(subscription)
+          environmentName: "Staging"
+          artifactName: "App"
+          artifactItemPattern: "**/*.zip"
+          appType: "webApp"
+          appName: $(api_app_name_staging)
+          package: "$(Pipeline.Workspace)/**/*.zip"
 
   - stage: Production
     displayName: "Deploy to Production"
