@@ -4,14 +4,14 @@ public class RemoveAuthorCommandTests : DatabaseTestsBase
 {
     private Author _author;
     private RemoveAuthorCommandHandler _handler = null!;
-    
+
     [SetUp]
     public void SetUp()
     {
         var context = new AuthStoreContext(AuthStoreDbContextOptions);
         _handler = new RemoveAuthorCommandHandler(context);
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -43,9 +43,9 @@ public class RemoveAuthorCommandTests : DatabaseTestsBase
         // arrange
         _author = await TestDataManager.SeedAuthor();
         var command = new RemoveAuthorCommand(_author.Id);
-        
+
         // act
-        
+
         await _handler.Handle(command);
 
         // assert

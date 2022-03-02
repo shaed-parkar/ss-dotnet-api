@@ -3,13 +3,13 @@ namespace Api.Tests.AuthorTests;
 public class RemoveAuthorByIdTests : ControllerTest
 {
     private Author _author;
-    
+
     [SetUp]
     public void SetUp()
     {
         _author = null;
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -20,7 +20,7 @@ public class RemoveAuthorByIdTests : ControllerTest
             await TestDataManager.RemoveAuthor(_author.Id);
         }
     }
-    
+
     [Test]
     public async Task should_return_not_found_when_nonexistent_id_is_provided()
     {
@@ -40,7 +40,7 @@ public class RemoveAuthorByIdTests : ControllerTest
     {
         // arrange
         using var client = Application.CreateClient();
-        
+
         // act
         var response = await client.DeleteAsync(ApiUriFactory.Author.RemoveAuthorById(Guid.Empty));
 
@@ -54,13 +54,13 @@ public class RemoveAuthorByIdTests : ControllerTest
         // arrange
         _author = await TestDataManager.SeedAuthor();
         using var client = Application.CreateClient();
-        
+
         // act
         var response = await client.DeleteAsync(ApiUriFactory.Author.RemoveAuthorById(_author.Id));
-        
+
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         // set to null so clean up does not try again
         _author = null;
     }

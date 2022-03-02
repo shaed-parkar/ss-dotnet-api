@@ -3,9 +3,9 @@ namespace Api.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Register types to the IoC
+    ///     Register types to the IoC
     /// </summary>
-    /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
+    /// <param name="serviceCollection">The <see cref="IServiceCollection" /></param>
     public static void AddCustomTypes(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<ILoggingDataExtractor, LoggingDataExtractor>();
@@ -38,9 +38,9 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Add the swagger page
+    ///     Add the swagger page
     /// </summary>
-    /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
+    /// <param name="serviceCollection">The <see cref="IServiceCollection" /></param>
     public static void AddSwagger(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddSwaggerGen(options =>

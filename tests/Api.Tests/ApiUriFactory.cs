@@ -10,8 +10,7 @@ public static class ApiUriFactory
         public static string GetAllAuthors => $"{ApiRoot}";
 
         public static string GetAuthorById(Guid authorId) => $"{ApiRoot}/{authorId}";
-        
-        public static string RemoveAuthorById(Guid authorId) => $"{ApiRoot}/{authorId}";
 
+        public static string RemoveAuthorById(Guid authorId) => $"{ApiRoot}/{authorId}";
     }
 }

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Api.Middleware.Validation;
+﻿namespace Api.Middleware.Validation;
 
 public class RequestModelValidatorFactory : ValidatorFactoryBase
 {

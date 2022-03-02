@@ -3,9 +3,9 @@ namespace Api.Extensions;
 public static class WebApplicationExtension
 {
     /// <summary>
-    /// Add the health check endpoint
+    ///     Add the health check endpoint
     /// </summary>
-    /// <param name="app">The <see cref="WebApplication"/> instance</param>
+    /// <param name="app">The <see cref="WebApplication" /> instance</param>
     public static void AddHealthCheck(this WebApplication app)
     {
         app.UseRouting().UseEndpoints(endpoints =>
@@ -17,7 +17,7 @@ public static class WebApplicationExtension
             });
         });
     }
-    
+
     private static Task WriteHealthCheckResponse(HttpContext context, HealthReport result)
     {
         context.Response.ContentType = "application/json";

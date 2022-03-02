@@ -22,10 +22,7 @@ public class RemoveAuthorCommandHandler : ICommandHandler<RemoveAuthorCommand>
     public async Task Handle(RemoveAuthorCommand command)
     {
         var author = await _context.Authors.Include(x => x.Notes).FirstOrDefaultAsync(x => x.Id == command.AuthorId);
-        if (author is null)
-        {
-            throw new AuthorNotFoundException(command.AuthorId);
-        }
+        if (author is null) throw new AuthorNotFoundException(command.AuthorId);
         _context.Remove(author);
         await _context.SaveChangesAsync();
     }

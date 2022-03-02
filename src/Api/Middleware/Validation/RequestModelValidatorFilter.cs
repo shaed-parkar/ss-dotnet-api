@@ -1,4 +1,3 @@
-using Api.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 

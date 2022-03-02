@@ -37,10 +37,10 @@ public class ExceptionMapperMiddleware
 public static class ExceptionHandlerMiddlewareExtensions
 {
     /// <summary>
-    /// Add the <see cref="ExceptionMapperMiddleware"/>
+    ///     Add the <see cref="ExceptionMapperMiddleware" />
     /// </summary>
-    /// <param name="builder">The <see cref="IApplicationBuilder"/> instance</param>
-    /// <returns>The <see cref="IApplicationBuilder"/> instance</returns>
+    /// <param name="builder">The <see cref="IApplicationBuilder" /> instance</param>
+    /// <returns>The <see cref="IApplicationBuilder" /> instance</returns>
     public static IApplicationBuilder UseExceptionMapper(
         this IApplicationBuilder builder)
     {

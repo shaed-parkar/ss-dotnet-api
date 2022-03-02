@@ -7,6 +7,7 @@ public class ValidationFailure
         Name = name;
         Message = message;
     }
+
     public string Name { get; }
     public string Message { get; }
 }

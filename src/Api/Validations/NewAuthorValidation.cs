@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace Api.Validations;
 
 public class NewAuthorValidation : AbstractValidator<NewAuthorDto>
