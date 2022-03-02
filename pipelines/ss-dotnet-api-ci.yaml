@@ -19,6 +19,8 @@ trigger:
   paths:
     exclude:
       - scripts
+      - infrastructure
+      - docs
     include:
       - src
       - tests
