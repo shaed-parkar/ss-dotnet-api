@@ -1,7 +1,3 @@
-using SS.DAL.Commands.Core;
-using SS.DAL.Exceptions;
-using SS.Domain.Enums;
-
 namespace SS.DAL.Commands;
 
 public class AddNoteCommand : ICommand
@@ -30,10 +26,7 @@ public class AddNoteCommandHandler : ICommandHandler<AddNoteCommand>
     public async Task Handle(AddNoteCommand command)
     {
         var author = await _context.Authors.FindAsync(command.AuthorId);
-        if (author == null)
-        {
-            throw new AuthorNotFoundException(command.AuthorId);
-        }
+        if (author == null) throw new AuthorNotFoundException(command.AuthorId);
         author.AddNote(command.Content, command.PriorityLevel);
         await _context.SaveChangesAsync();
     }

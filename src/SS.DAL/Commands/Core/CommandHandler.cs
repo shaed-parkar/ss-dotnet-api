@@ -1,18 +1,17 @@
-﻿namespace SS.DAL.Commands.Core
+﻿namespace SS.DAL.Commands.Core;
+
+public class CommandHandler : ICommandHandler
 {
-    public class CommandHandler : ICommandHandler
+    private readonly ICommandHandlerFactory _queryHandlerFactory;
+
+    public CommandHandler(ICommandHandlerFactory queryHandlerFactory)
     {
-        private readonly ICommandHandlerFactory _queryHandlerFactory;
+        _queryHandlerFactory = queryHandlerFactory;
+    }
 
-        public CommandHandler(ICommandHandlerFactory queryHandlerFactory)
-        {
-            _queryHandlerFactory = queryHandlerFactory;
-        }
-
-        public async Task Handle<TCommand>(TCommand command) where TCommand : ICommand
-        {
-            var handler = _queryHandlerFactory.Create(command);
-            await handler.Handle(command);
-        }
+    public async Task Handle<TCommand>(TCommand command) where TCommand : ICommand
+    {
+        var handler = _queryHandlerFactory.Create(command);
+        await handler.Handle(command);
     }
 }

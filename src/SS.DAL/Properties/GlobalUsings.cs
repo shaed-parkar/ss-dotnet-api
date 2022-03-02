@@ -1,0 +1,16 @@
+global using SS.Domain;
+global using SS.DAL.Commands.Core;
+global using SS.DAL.Exceptions;
+global using SS.Domain.Enums;
+global using System;
+global using System.Threading.Tasks;
+global using SS.DAL.Queries.Core;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using System.Collections.Generic;
+global using System.Runtime.Serialization;
+global using System.Diagnostics;
+global using Microsoft.Extensions.Logging;
+global using SS.Common;
+global using Microsoft.EntityFrameworkCore.Design;
+global using Microsoft.Extensions.Configuration;

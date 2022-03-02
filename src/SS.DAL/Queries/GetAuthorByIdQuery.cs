@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using SS.DAL.Queries.Core;
-using SS.Domain;
-
 namespace SS.DAL.Queries;
 
 public class GetAuthorByIdQuery : IQuery

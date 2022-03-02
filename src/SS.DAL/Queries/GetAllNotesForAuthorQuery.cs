@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using SS.DAL.Exceptions;
-using SS.DAL.Queries.Core;
-using SS.Domain;
-
 namespace SS.DAL.Queries;
 
 public class GetAllNotesForAuthorQuery : IQuery
@@ -29,10 +24,7 @@ public class GetAllNotesForAuthorQueryHandler : IQueryHandler<GetAllNotesForAuth
         var author = await _context.Authors.AsNoTracking()
             .Include(x => x.Notes)
             .FirstOrDefaultAsync(x => x.Id == query.AuthorId);
-        if (author == null)
-        {
-            throw new AuthorNotFoundException(query.AuthorId);
-        }
+        if (author == null) throw new AuthorNotFoundException(query.AuthorId);
 
         return author.Notes;
     }

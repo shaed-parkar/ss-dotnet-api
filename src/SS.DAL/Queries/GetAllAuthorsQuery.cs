@@ -1,12 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using SS.DAL.Queries.Core;
-using SS.Domain;
-
 namespace SS.DAL.Queries;
 
 public class GetAllAuthorsQuery : IQuery
 {
-    
 }
 
 public class GetAllAuthorsQueryHandler : IQueryHandler<GetAllAuthorsQuery, List<Author>>
