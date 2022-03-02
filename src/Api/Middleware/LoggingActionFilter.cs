@@ -19,7 +19,7 @@ public class LoggingActionFilter : IAsyncActionFilter
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        Dictionary<string, object> properties = context.ActionDescriptor.Parameters
+        var properties = context.ActionDescriptor.Parameters
             .Select(p => context.ActionArguments.SingleOrDefault(x => x.Key == p.Name))
             .SelectMany(pv => _loggingDataExtractor.ConvertToDictionary(pv.Value, pv.Key))
             .ToDictionary(x => x.Key, x => x.Value);

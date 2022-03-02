@@ -46,7 +46,7 @@ public class GetAuthorByIdTests : ControllerTest
 
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.DeserialiseTo<AuthorDto>();
+        var result = await response.Content.ReadFromJsonAsync<AuthorDto>();
 
         result.Should().BeEquivalentTo(_author, options => options.Excluding(author => author.Notes));
     }

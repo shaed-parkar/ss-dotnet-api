@@ -1,28 +1,28 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace Api.Middleware.Validation
+namespace Api.Middleware.Validation;
+
+public class RequestModelValidatorService : IRequestModelValidatorService
 {
-    public class RequestModelValidatorService : IRequestModelValidatorService
+    private readonly IValidatorFactory _validatorFactory;
+
+    public RequestModelValidatorService(IValidatorFactory validatorFactory)
     {
-        private readonly IValidatorFactory _validatorFactory;
+        _validatorFactory = validatorFactory;
+    }
 
-        public RequestModelValidatorService(IValidatorFactory validatorFactory)
+    public IList<ValidationFailure> Validate(Type requestModel, object modelValue)
+    {
+        var validator = _validatorFactory.GetValidator(requestModel);
+        if (validator == null)
         {
-            _validatorFactory = validatorFactory;
+            var failure = new ValidationFailure(modelValue.GetType().ToString(), "Validator not found for request");
+            return new List<ValidationFailure> {failure};
         }
 
-        public IList<ValidationFailure> Validate(Type requestModel, object modelValue)
-        {
-            var validator = _validatorFactory.GetValidator(requestModel);
-            if (validator == null)
-            {
-                var failure = new ValidationFailure(modelValue.GetType().ToString(), "Validator not found for request");
-                return new List<ValidationFailure>{failure};
-            }
-            var context = new ValidationContext<object>(modelValue);
-            var result = validator.Validate(context);
-            return result.Errors;
-        }
+        var context = new ValidationContext<object>(modelValue);
+        var result = validator.Validate(context);
+        return result.Errors;
     }
 }

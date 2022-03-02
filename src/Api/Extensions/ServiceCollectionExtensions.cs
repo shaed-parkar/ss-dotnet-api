@@ -1,24 +1,22 @@
-using Api.Middleware.Validation;
-using FluentValidation;
-using SS.Common;
-using SS.DAL.Commands.Core;
-using SS.DAL.Queries.Core;
-
 namespace Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCustomTypes(this IServiceCollection serviceCollection)
+    /// <summary>
+    /// Register types to the IoC
+    /// </summary>
+    /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
+    public static void AddCustomTypes(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<ILoggingDataExtractor, LoggingDataExtractor>();
-        
+
         serviceCollection.AddScoped<IQueryHandlerFactory, QueryHandlerFactory>();
         serviceCollection.AddScoped<IQueryHandler, QueryHandler>();
 
         serviceCollection.AddScoped<ICommandHandlerFactory, CommandHandlerFactory>();
         serviceCollection.AddScoped<ICommandHandler, CommandHandler>();
-        
-        
+
+
         // register command handlers
         serviceCollection.Scan(scan => scan.FromAssemblyOf<ICommand>()
             .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>))
@@ -34,10 +32,24 @@ public static class ServiceCollectionExtensions
             .AsImplementedInterfaces()
             .WithTransientLifetime());
         serviceCollection.Decorate(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
-        
+
         serviceCollection.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
         serviceCollection.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
-        
-        return serviceCollection;
+    }
+
+    /// <summary>
+    /// Add the swagger page
+    /// </summary>
+    /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
+    public static void AddSwagger(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddSwaggerGen(options =>
+        {
+            var contractsXmlFileName = $"{typeof(AuthorDto).Assembly.GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, contractsXmlFileName));
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
     }
 }

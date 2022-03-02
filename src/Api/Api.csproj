@@ -23,19 +23,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SS.Api.Contracts\SS.Api.Contracts.csproj" />
-      <ProjectReference Include="..\SS.DAL\SS.DAL.csproj" />
+        <ProjectReference Include="..\SS.Api.Contracts\SS.Api.Contracts.csproj" />
+        <ProjectReference Include="..\SS.DAL\SS.DAL.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Middleware\Validation" />
+        <Folder Include="Middleware\Validation" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="web.config">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-      </None>
+        <None Include="web.config">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

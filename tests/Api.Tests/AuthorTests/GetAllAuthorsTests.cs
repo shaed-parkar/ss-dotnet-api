@@ -24,9 +24,11 @@ public class GetAllAuthorsTests : ControllerTest
         using var client = Application.CreateClient();
 
         // act
-        var response = await client.GetFromJsonAsync<List<AuthorDto>>(ApiUriFactory.Author.GetAllAuthors());
+        var response = await client.GetAsync(ApiUriFactory.Author.GetAllAuthors);
 
         // assert
-        response.Should().BeEquivalentTo(_authors, options => options.Excluding(author => author.Notes));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var result = await response.Content.ReadFromJsonAsync<List<AuthorDto>>();
+        result.Should().BeEquivalentTo(_authors, options => options.Excluding(author => author.Notes));
     }
 }

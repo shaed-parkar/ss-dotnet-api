@@ -1,9 +1,8 @@
 ﻿using FluentValidation.Results;
 
-namespace Api.Middleware.Validation
+namespace Api.Middleware.Validation;
+
+public interface IRequestModelValidatorService
 {
-    public interface IRequestModelValidatorService
-    {
-        IList<ValidationFailure> Validate(Type requestModel, object modelValue);
-    }
+    IList<ValidationFailure> Validate(Type requestModel, object modelValue);
 }
