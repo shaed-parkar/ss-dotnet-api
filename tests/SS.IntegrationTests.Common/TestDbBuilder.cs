@@ -14,13 +14,12 @@ public static class TestDbBuilder
             .AddEnvironmentVariables()
             .AddUserSecrets(AppConstants.SecretKey);
         var configRoot = configRootBuilder.Build();
-        
+
         var databaseConnectionString = configRoot.GetConnectionString(AppConstants.AuthStoreDbName);
-        
+
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<AuthStoreContext>();
-        dbContextOptionsBuilder.EnableSensitiveDataLogging();
         dbContextOptionsBuilder.UseSqlServer(databaseConnectionString);
-        
+
         return dbContextOptionsBuilder.Options;
     }
 }

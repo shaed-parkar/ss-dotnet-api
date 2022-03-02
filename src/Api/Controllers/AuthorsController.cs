@@ -20,12 +20,26 @@ namespace Api.Controllers
         private readonly ICommandHandler _commandHandler;
         private readonly ILogger<AuthorsController> _logger;
         
-        // GET: api/Authors
         public AuthorsController(IQueryHandler queryHandler, ICommandHandler commandHandler, ILogger<AuthorsController> logger)
         {
             _queryHandler = queryHandler;
             _commandHandler = commandHandler;
             _logger = logger;
+        }
+        
+        /// <summary>
+        /// Get all authors
+        /// </summary>
+        /// <returns>Author details</returns>
+        [HttpGet( Name = "GetAllAuthors")]
+        [ProducesResponseType(typeof(List<AuthorDto>), (int) HttpStatusCode.OK)]
+        public async Task<ActionResult<List<AuthorDto>>> GetAllAuthors()
+        {
+            var query = new GetAllAuthorsQuery();
+            var authors = await _queryHandler.Handle<GetAllAuthorsQuery, List<Author>>(query);
+            _logger.LogTrace("Returning all authors");
+            var authorDtos = authors.Select(author => new AuthorDto(author.Id, author.FirstName, author.LastName)).ToList();
+            return Ok(authorDtos);
         }
 
         /// <summary>

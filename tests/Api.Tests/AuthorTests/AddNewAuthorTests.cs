@@ -1,24 +1,15 @@
-using System.Net;
-using System.Threading.Tasks;
-using Api.Validations;
-using FluentAssertions;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using SS.Api.Contracts;
-using SS.Api.Contracts.Requests;
-
 namespace Api.Tests.AuthorTests;
 
 public class AddNewAuthorTests : ControllerTest
 {
     private AuthorDto _author;
-    
+
     [SetUp]
     public void Setup()
     {
         _author = null;
     }
-    
+
     [TearDown]
     public async Task TearDown()
     {
@@ -36,7 +27,7 @@ public class AddNewAuthorTests : ControllerTest
         var newAuthor = new NewAuthorDto(string.Empty, "Doe Test");
         var payload = ApiTestHelper.CreateJsonPayloadForRequest(newAuthor);
         using var client = Application.CreateClient();
-        
+
         // act
         var response = await client.PostAsync(ApiUriFactory.Author.AddNewAuthor, payload);
 
