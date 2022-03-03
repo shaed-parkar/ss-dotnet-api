@@ -1,4 +1,4 @@
-namespace SS.DAL.Tests.Commands;
+namespace SS.Commands;
 
 public class AddAuthorCommandTests : DatabaseTestsBase
 {

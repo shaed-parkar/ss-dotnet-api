@@ -1,4 +1,4 @@
-namespace SS.Api.Contracts;
+namespace SS.Responses;
 
 /// <summary>
 ///     Details for an existing author

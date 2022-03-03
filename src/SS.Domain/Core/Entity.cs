@@ -1,4 +1,4 @@
-namespace SS.Domain.Core;
+namespace SS.Core;
 
 public abstract class Entity<TKey>
 {

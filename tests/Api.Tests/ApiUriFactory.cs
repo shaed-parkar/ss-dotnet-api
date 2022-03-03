@@ -1,4 +1,4 @@
-namespace Api.Tests;
+namespace SS;
 
 public static class ApiUriFactory
 {

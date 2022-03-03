@@ -1,4 +1,4 @@
-namespace SS.Common;
+namespace SS;
 
 public interface ILoggingDataExtractor
 {

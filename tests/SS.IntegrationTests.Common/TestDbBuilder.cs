@@ -1,9 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SS.Common;
-using SS.DAL;
-
-namespace SS.Tests.Common;
+namespace SS;
 
 public static class TestDbBuilder
 {

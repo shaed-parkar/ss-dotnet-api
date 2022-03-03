@@ -1,4 +1,6 @@
-namespace SS.DAL.Queries;
+using SS.Queries.Core;
+
+namespace SS.Queries;
 
 public class GetAllAuthorsQuery : IQuery
 {

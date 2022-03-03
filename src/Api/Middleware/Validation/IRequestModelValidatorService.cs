@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace Api.Middleware.Validation;
+﻿namespace SS.Middleware.Validation;
 
 public interface IRequestModelValidatorService
 {

@@ -1,4 +1,4 @@
-namespace Api.Middleware;
+namespace SS.Middleware;
 
 /// <summary>
 ///     Middleware to intercept the response we're sending to the client in order to use for logging

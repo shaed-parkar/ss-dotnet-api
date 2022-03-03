@@ -1,4 +1,4 @@
-namespace SS.Api.Contracts.Requests;
+namespace SS.Requests;
 
 /// <summary>
 ///     Details for a new author

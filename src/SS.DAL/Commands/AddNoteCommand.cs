@@ -1,4 +1,8 @@
-namespace SS.DAL.Commands;
+using SS.Commands.Core;
+using SS.Enums;
+using SS.Exceptions;
+
+namespace SS.Commands;
 
 public class AddNoteCommand : ICommand
 {

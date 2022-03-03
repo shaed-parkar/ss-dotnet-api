@@ -1,4 +1,4 @@
-namespace SS.DAL.Mappings;
+namespace SS.Mappings;
 
 public class AuthorMap : IEntityTypeConfiguration<Author>
 {

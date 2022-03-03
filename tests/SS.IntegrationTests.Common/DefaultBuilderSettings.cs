@@ -1,7 +1,4 @@
-using FizzWare.NBuilder;
-using SS.Domain;
-
-namespace SS.Tests.Common;
+namespace SS;
 
 public static class DefaultBuilderSettings
 {

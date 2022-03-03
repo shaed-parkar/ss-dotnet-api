@@ -1,4 +1,4 @@
-namespace SS.DAL.Exceptions;
+namespace SS.Exceptions;
 
 public class AuthorDalException : Exception
 {

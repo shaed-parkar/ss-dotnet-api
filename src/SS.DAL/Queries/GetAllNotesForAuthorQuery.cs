@@ -1,4 +1,7 @@
-namespace SS.DAL.Queries;
+using SS.Exceptions;
+using SS.Queries.Core;
+
+namespace SS.Queries;
 
 public class GetAllNotesForAuthorQuery : IQuery
 {

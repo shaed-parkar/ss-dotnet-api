@@ -1,4 +1,4 @@
-namespace Api.Tests;
+namespace SS;
 
 public abstract class ControllerTest
 {

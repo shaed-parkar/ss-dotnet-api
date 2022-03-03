@@ -1,7 +1,7 @@
 #pragma warning disable CS8618
 using System.Reflection;
 
-namespace SS.DAL;
+namespace SS;
 
 public class AuthStoreContext : DbContext
 {

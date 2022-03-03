@@ -1,4 +1,4 @@
-namespace Api.Extensions;
+namespace SS.Extensions;
 
 public static class WebApplicationExtension
 {

@@ -1,6 +1,8 @@
 # ss-dotnet-api
 DotNet API with EF Core and some handy middleware
 
+[![Build Status](https://shaedparkar.visualstudio.com/ss-dotnet-api/_apis/build/status/ss-dotnet-api-ci?branchName=main)](https://shaedparkar.visualstudio.com/ss-dotnet-api/_build/latest?definitionId=9&branchName=main)
+
 ## Adding Migrations
 
 ### Install EF Core CLI
