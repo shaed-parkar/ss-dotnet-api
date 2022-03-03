@@ -1,3 +1,6 @@
+using SS;
+using SS.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -39,6 +42,9 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program
+namespace SS
 {
+    public class Program
+    {
+    }
 }

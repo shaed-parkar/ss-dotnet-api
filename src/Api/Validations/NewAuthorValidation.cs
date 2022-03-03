@@ -1,4 +1,4 @@
-namespace Api.Validations;
+namespace SS.Validations;
 
 public class NewAuthorValidation : AbstractValidator<NewAuthorDto>
 {

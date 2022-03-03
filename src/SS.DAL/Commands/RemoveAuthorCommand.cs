@@ -1,4 +1,7 @@
-namespace SS.DAL.Commands;
+using SS.Commands.Core;
+using SS.Exceptions;
+
+namespace SS.Commands;
 
 public class RemoveAuthorCommand : ICommand
 {

@@ -1,7 +1,4 @@
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-namespace Api.Extensions;
+namespace SS.Extensions;
 
 public static class ModelStateExtensions
 {

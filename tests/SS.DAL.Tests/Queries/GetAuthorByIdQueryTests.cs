@@ -1,4 +1,4 @@
-namespace SS.DAL.Tests.Queries;
+namespace SS.Queries;
 
 public class GetAuthorByIdQueryTests : DatabaseTestsBase
 {

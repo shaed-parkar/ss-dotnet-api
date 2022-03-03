@@ -3,7 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>SS.Tests.Common</RootNamespace>
+        <RootNamespace>SS</RootNamespace>
+        <AssemblyName>SS.Tests.Common</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

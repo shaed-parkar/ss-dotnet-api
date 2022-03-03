@@ -1,4 +1,4 @@
-namespace SS.Domain.Tests.AuthorTests;
+namespace SS.AuthorTests;
 
 public class AddNoteTests
 {

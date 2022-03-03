@@ -1,4 +1,4 @@
-namespace Api.Controllers;
+namespace SS.Controllers;
 
 [Route("[controller]")]
 [Produces("application/json")]

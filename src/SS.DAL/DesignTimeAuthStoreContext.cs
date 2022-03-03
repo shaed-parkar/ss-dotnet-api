@@ -1,4 +1,4 @@
-namespace SS.DAL;
+namespace SS;
 
 public class DesignTimeAuthStoreContext : IDesignTimeDbContextFactory<AuthStoreContext>
 {

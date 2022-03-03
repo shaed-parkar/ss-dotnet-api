@@ -1,5 +1,5 @@
 #pragma warning disable CS8633
-namespace SS.DAL.Queries.Core;
+namespace SS.Queries.Core;
 
 public class QueryHandler : IQueryHandler
 {

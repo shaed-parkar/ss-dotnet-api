@@ -1,4 +1,4 @@
-namespace SS.DAL.Tests;
+namespace SS;
 
 public abstract class DatabaseTestsBase
 {

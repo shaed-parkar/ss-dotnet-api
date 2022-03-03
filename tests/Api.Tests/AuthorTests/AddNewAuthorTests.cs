@@ -1,4 +1,4 @@
-namespace Api.Tests.AuthorTests;
+namespace SS.AuthorTests;
 
 public class AddNewAuthorTests : ControllerTest
 {

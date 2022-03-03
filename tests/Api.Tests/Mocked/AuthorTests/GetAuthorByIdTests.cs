@@ -1,4 +1,4 @@
-namespace Api.Tests.Mocked.AuthorTests;
+namespace SS.Mocked.AuthorTests;
 
 public class GetAuthorByIdTests
 {

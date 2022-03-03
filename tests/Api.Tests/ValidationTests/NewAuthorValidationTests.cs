@@ -1,4 +1,4 @@
-namespace Api.Tests.ValidationTests;
+namespace SS.ValidationTests;
 
 public class NewAuthorValidationTests
 {

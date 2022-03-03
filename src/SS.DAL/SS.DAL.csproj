@@ -4,6 +4,8 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>2cc6e398-3787-4322-ae27-43885c70d459</UserSecretsId>
+        <RootNamespace>SS</RootNamespace>
+        <AssemblyName>SS.DAL</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

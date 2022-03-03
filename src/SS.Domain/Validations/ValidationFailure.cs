@@ -1,4 +1,4 @@
-namespace SS.Domain.Validations;
+namespace SS.Validations;
 
 public class ValidationFailure
 {

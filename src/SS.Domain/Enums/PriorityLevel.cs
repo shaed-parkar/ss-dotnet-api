@@ -1,4 +1,4 @@
-namespace SS.Domain.Enums;
+namespace SS.Enums;
 
 public enum PriorityLevel
 {

@@ -1,4 +1,4 @@
-﻿namespace SS.DAL.Commands.Core;
+﻿namespace SS.Commands.Core;
 
 public interface ICommandHandler
 {

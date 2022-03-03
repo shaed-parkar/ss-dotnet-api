@@ -1,4 +1,4 @@
-﻿namespace Api.Middleware.Validation;
+﻿namespace SS.Middleware.Validation;
 
 public class RequestModelValidatorFactory : ValidatorFactoryBase
 {

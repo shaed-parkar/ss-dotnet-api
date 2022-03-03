@@ -1,8 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using SS.DAL;
-using SS.Domain;
-
-namespace SS.Tests.Common;
+namespace SS;
 
 public class TestDataManager
 {

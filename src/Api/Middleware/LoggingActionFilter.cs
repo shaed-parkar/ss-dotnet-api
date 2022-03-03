@@ -1,8 +1,6 @@
 #pragma warning disable CS8604
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Api.Middleware;
+namespace SS.Middleware;
 
 public class LoggingActionFilter : IAsyncActionFilter
 {

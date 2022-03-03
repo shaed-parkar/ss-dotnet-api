@@ -7,6 +7,8 @@
         <UserSecretsId>A5E0686B-1334-404B-811C-8C3F1E542EF1</UserSecretsId>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>
+        <RootNamespace>SS</RootNamespace>
+        <AssemblyName>Api</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,8 +1,8 @@
-using SS.Domain.Core;
-using SS.Domain.Enums;
-using SS.Domain.Validations;
+using SS.Core;
+using SS.Enums;
+using SS.Validations;
 
-namespace SS.Domain;
+namespace SS;
 
 public class Note : Entity<int>
 {

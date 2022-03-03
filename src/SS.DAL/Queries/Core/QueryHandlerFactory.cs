@@ -1,4 +1,4 @@
-﻿namespace SS.DAL.Queries.Core;
+﻿namespace SS.Queries.Core;
 
 public class QueryHandlerFactory : IQueryHandlerFactory
 {
