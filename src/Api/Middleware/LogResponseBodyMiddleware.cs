@@ -1,7 +1,7 @@
 namespace Api.Middleware;
 
 /// <summary>
-/// Middleware to intercept the response we're sending to the client in order to use for logging
+///     Middleware to intercept the response we're sending to the client in order to use for logging
 /// </summary>
 public class LogResponseBodyMiddleware
 {
@@ -15,7 +15,7 @@ public class LogResponseBodyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        Stream originalBody = context.Response.Body;
+        var originalBody = context.Response.Body;
 
         try
         {

@@ -1,6 +1,3 @@
-using SS.DAL.Commands.Core;
-using SS.Domain;
-
 namespace SS.DAL.Commands;
 
 public class AddAuthorCommand : ICommand
@@ -13,7 +10,7 @@ public class AddAuthorCommand : ICommand
 
     public string FirstName { get; }
     public string LastName { get; }
-    
+
     public Author CreatedAuthor { get; internal set; }
 }
 

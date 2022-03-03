@@ -1,12 +1,10 @@
-using FluentValidation;
-using SS.Api.Contracts.Requests;
-
 namespace Api.Validations;
 
 public class NewAuthorValidation : AbstractValidator<NewAuthorDto>
 {
     public static readonly string MissingFirstNameMessage = "FirstName is required";
     public static readonly string MissingLastNameMessage = "LastName is required";
+
     public NewAuthorValidation()
     {
         RuleFor(x => x.FirstName).NotEmpty().WithMessage(MissingFirstNameMessage);

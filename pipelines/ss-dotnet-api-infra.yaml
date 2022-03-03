@@ -1,3 +1,7 @@
+trigger: none
+
+pr: none
+
 variables:
   - name: "PoolName"
     value: "ubuntu-latest"

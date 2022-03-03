@@ -8,10 +8,10 @@ public class CreateNoteTests
         // arrange
         var content = "Buy milk";
         var priority = PriorityLevel.High;
-        
+
         // act
         var note = new Note(content, priority);
-        
+
         // assert
         note.Content.Should().Be(content);
         note.Priority.Should().Be(priority);
@@ -22,7 +22,7 @@ public class CreateNoteTests
     {
         // act
         Action action = () => new Note(null!, PriorityLevel.High);
-        
+
         // assert
         action.Should().Throw<DomainRuleException>()
             .And.ValidationFailures.Count.Should().Be(1);

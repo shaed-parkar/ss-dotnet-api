@@ -1,4 +1,5 @@
-﻿namespace SS.DAL.Queries.Core
+﻿namespace SS.DAL.Queries.Core;
+
+public interface IQuery
 {
-    public interface IQuery { }
 }

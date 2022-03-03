@@ -6,8 +6,8 @@ public class CreatePersonTests
     public void should_create_an_author_with_valid_params()
     {
         // act
-        var author =  new Author("John", "Doe");
-        
+        var author = new Author("John", "Doe");
+
         // assert
         author.FirstName.Should().Be("John");
         author.LastName.Should().Be("Doe");
@@ -18,18 +18,18 @@ public class CreatePersonTests
     {
         // act
         Action action = () => new Author(string.Empty, "Doe");
-        
+
         // assert
         action.Should().Throw<DomainRuleException>()
             .And.ValidationFailures.Count.Should().Be(1);
     }
-    
+
     [Test]
     public void should_throw_exception_when_creating_an_author_without_a_lastname()
     {
         // act
         Action action = () => new Author("John", null!);
-        
+
         // assert
         action.Should().Throw<DomainRuleException>()
             .And.ValidationFailures.Count.Should().Be(1);

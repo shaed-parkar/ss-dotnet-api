@@ -1,18 +1,9 @@
-using System;
-using System.Net;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using FluentAssertions;
-using NUnit.Framework;
-using SS.Api.Contracts;
-using SS.Domain;
-
 namespace Api.Tests.AuthorTests;
 
 public class GetAuthorByIdTests : ControllerTest
 {
     private Author _author;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -34,11 +25,11 @@ public class GetAuthorByIdTests : ControllerTest
     {
         // arrange
         var id = Guid.NewGuid();
-        
+
         // act
         using var client = Application.CreateClient();
         var response = await client.GetAsync(ApiUriFactory.Author.GetAuthorById(id));
-        
+
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
@@ -48,14 +39,14 @@ public class GetAuthorByIdTests : ControllerTest
     {
         // arrange
         _author = await TestDataManager.SeedAuthor();
-        
+
         // act
         using var client = Application.CreateClient();
         var response = await client.GetAsync(ApiUriFactory.Author.GetAuthorById(_author.Id));
-        
+
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.DeserialiseTo<AuthorDto>();
+        var result = await response.Content.ReadFromJsonAsync<AuthorDto>();
 
         result.Should().BeEquivalentTo(_author, options => options.Excluding(author => author.Notes));
     }

@@ -1,4 +1,5 @@
-﻿namespace SS.DAL.Commands.Core
+﻿namespace SS.DAL.Commands.Core;
+
+public interface ICommand
 {
-    public interface ICommand { }
 }

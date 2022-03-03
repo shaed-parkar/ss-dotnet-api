@@ -1,23 +1,9 @@
-using System.Threading.Tasks;
-using Api.Controllers;
-using Autofac.Extras.Moq;
-using FizzWare.NBuilder;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using SS.DAL.Queries;
-using SS.DAL.Queries.Core;
-using SS.Domain;
-using SS.Tests.Common;
-
 namespace Api.Tests.Mocked.AuthorTests;
 
 public class GetAuthorByIdTests
 {
-    private AutoMock _mocker;
     private AuthorsController _controller;
+    private AutoMock _mocker;
 
     [SetUp]
     public void Setup()

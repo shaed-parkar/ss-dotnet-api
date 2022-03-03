@@ -1,19 +1,18 @@
-﻿namespace SS.DAL.Commands.Core
+﻿namespace SS.DAL.Commands.Core;
+
+public class CommandHandlerFactory : ICommandHandlerFactory
 {
-    public class CommandHandlerFactory : ICommandHandlerFactory
+    private readonly IServiceProvider _serviceProvider;
+
+    public CommandHandlerFactory(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        public CommandHandlerFactory(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        public ICommandHandler<TCommand> Create<TCommand>(TCommand command) where TCommand : ICommand
-        {
-            var genericType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-            return (ICommandHandler<TCommand>)_serviceProvider.GetService(genericType)!; 
-            // Service Locator is anti-pattern. Need to figure out better way of managing this
-        }
+    public ICommandHandler<TCommand> Create<TCommand>(TCommand command) where TCommand : ICommand
+    {
+        var genericType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
+        return (ICommandHandler<TCommand>) _serviceProvider.GetService(genericType)!;
+        // Service Locator is anti-pattern. Need to figure out better way of managing this
     }
 }

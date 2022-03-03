@@ -1,35 +1,30 @@
-using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using SS.Common;
+namespace SS.DAL.Commands.Core;
 
-namespace SS.DAL.Commands.Core
+public class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
 {
-    public class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
+    private readonly ILogger<TCommand> _logger;
+
+    private readonly ILoggingDataExtractor _loggingDataExtractor;
+    private readonly ICommandHandler<TCommand> _underlyingHandler;
+
+    public CommandHandlerLoggingDecorator(ICommandHandler<TCommand> underlyingHandler, ILogger<TCommand> logger,
+        ILoggingDataExtractor loggingDataExtractor)
     {
-        private readonly ICommandHandler<TCommand> _underlyingHandler;
+        _logger = logger;
+        _underlyingHandler = underlyingHandler;
+        _loggingDataExtractor = loggingDataExtractor;
+    }
 
-        private readonly ILogger<TCommand> _logger;
-
-        private readonly ILoggingDataExtractor _loggingDataExtractor;
-
-        public CommandHandlerLoggingDecorator(ICommandHandler<TCommand> underlyingHandler, ILogger<TCommand> logger, ILoggingDataExtractor loggingDataExtractor)
+    public async Task Handle(TCommand command)
+    {
+        var properties = _loggingDataExtractor.ConvertToDictionary(command);
+        properties.Add(nameof(TCommand), typeof(TCommand).Name);
+        using (_logger.BeginScope(properties))
         {
-            _logger = logger;
-            _underlyingHandler = underlyingHandler;
-            _loggingDataExtractor = loggingDataExtractor;
-        }
-
-        public async Task Handle(TCommand command)
-        {
-            var properties = _loggingDataExtractor.ConvertToDictionary(command);
-            properties.Add(nameof(TCommand), typeof(TCommand).Name);
-            using (_logger.BeginScope(properties))
-            {
-                _logger.LogDebug("Handling command");
-                var sw = Stopwatch.StartNew();
-                await _underlyingHandler.Handle(command);
-                _logger.LogDebug("Handled command in {ElapsedMilliseconds}ms", sw.ElapsedMilliseconds);
-            }
+            _logger.LogDebug("Handling command");
+            var sw = Stopwatch.StartNew();
+            await _underlyingHandler.Handle(command);
+            _logger.LogDebug("Handled command in {ElapsedMilliseconds}ms", sw.ElapsedMilliseconds);
         }
     }
 }

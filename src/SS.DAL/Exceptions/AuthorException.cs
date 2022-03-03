@@ -1,14 +1,12 @@
-using System.Runtime.Serialization;
-
 namespace SS.DAL.Exceptions;
 
-public class AuthorDalException: Exception
+public class AuthorDalException : Exception
 {
     protected AuthorDalException(string message) : base(message)
     {
     }
-        
-    protected AuthorDalException(SerializationInfo info, StreamingContext context) 
+
+    protected AuthorDalException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }
@@ -17,7 +15,6 @@ public class AuthorDalException: Exception
 [Serializable]
 public class AuthorNotFoundException : AuthorDalException
 {
-    public Guid AuthorId { get; }
     public AuthorNotFoundException(Guid authorId) : base(
         $"Author {authorId} does not exist")
     {
@@ -28,4 +25,6 @@ public class AuthorNotFoundException : AuthorDalException
         : base(info, context)
     {
     }
+
+    public Guid AuthorId { get; }
 }

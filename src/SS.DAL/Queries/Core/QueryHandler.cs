@@ -16,4 +16,3 @@ public class QueryHandler : IQueryHandler
         return handler.Handle(query);
     }
 }
-

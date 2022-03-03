@@ -1,8 +1,6 @@
-﻿
-namespace SS.DAL.Commands.Core
+﻿namespace SS.DAL.Commands.Core;
+
+public interface ICommandHandlerFactory
 {
-    public interface ICommandHandlerFactory
-    {
-        ICommandHandler<TCommand> Create<TCommand>(TCommand command) where TCommand : ICommand;
-    }
+    ICommandHandler<TCommand> Create<TCommand>(TCommand command) where TCommand : ICommand;
 }

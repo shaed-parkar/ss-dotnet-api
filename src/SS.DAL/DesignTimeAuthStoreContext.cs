@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using SS.Common;
-
 namespace SS.DAL;
 
 public class DesignTimeAuthStoreContext : IDesignTimeDbContextFactory<AuthStoreContext>
