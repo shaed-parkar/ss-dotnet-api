@@ -1,7 +1,3 @@
-using SS.Commands.Core;
-using SS.Enums;
-using SS.Exceptions;
-
 namespace SS.Commands;
 
 public class AddNoteCommand : ICommand
@@ -16,6 +12,7 @@ public class AddNoteCommand : ICommand
     public Guid AuthorId { get; }
     public string Content { get; }
     public PriorityLevel PriorityLevel { get; }
+    public Note CreatedNote { get; internal set; }
 }
 
 public class AddNoteCommandHandler : ICommandHandler<AddNoteCommand>
@@ -33,5 +30,6 @@ public class AddNoteCommandHandler : ICommandHandler<AddNoteCommand>
         if (author == null) throw new AuthorNotFoundException(command.AuthorId);
         author.AddNote(command.Content, command.PriorityLevel);
         await _context.SaveChangesAsync();
+        command.CreatedNote = author.Notes.Last();
     }
 }

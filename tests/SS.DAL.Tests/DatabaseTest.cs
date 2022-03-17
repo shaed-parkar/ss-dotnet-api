@@ -9,7 +9,7 @@ public abstract class DatabaseTestsBase
     public void OneTimeSetup()
     {
         AuthStoreDbContextOptions = TestDbBuilder.CreateAuthStoreDbOptions();
-
+        
         var context = new AuthStoreContext(AuthStoreDbContextOptions);
         context.Database.Migrate();
 

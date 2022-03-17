@@ -7,11 +7,6 @@ public class DomainRuleException : Exception
         ValidationFailures = validationFailures;
     }
 
-    public DomainRuleException(string name, string message) : base(message)
-    {
-        ValidationFailures.Add(new ValidationFailure(name, message));
-    }
-
     public ValidationFailures ValidationFailures { get; protected set; } = new();
 
     private static string BuildMessage(ValidationFailures validationFailures)
