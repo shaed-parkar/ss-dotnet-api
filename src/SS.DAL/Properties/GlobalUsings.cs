@@ -8,3 +8,6 @@ global using System.Diagnostics;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.EntityFrameworkCore.Design;
 global using Microsoft.Extensions.Configuration;
+global using SS.Commands.Core;
+global using SS.Enums;
+global using SS.Exceptions;

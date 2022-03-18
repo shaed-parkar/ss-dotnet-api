@@ -52,5 +52,7 @@ public class AddNewNoteCommandTests : DatabaseTestsBase
         await using var db = new AuthStoreContext(AuthStoreDbContextOptions);
         var result = await db.Authors.Include(x => x.Notes).FirstAsync(x => x.Id == _author.Id);
         result.Notes.Should().Contain(note => note.Content == content && note.Priority == priorityLevel);
+        var createdNote = command.CreatedNote;
+        createdNote.Should().BeEquivalentTo(new Note(content, priorityLevel), options => options.Excluding(x => x.Id));
     }
 }

@@ -25,3 +25,4 @@ global using SS.Middleware.Validation;
 global using Microsoft.AspNetCore.Mvc.Filters;
 global using SS.Extensions;
 global using SS.Exceptions;
+global using SS.Enums;
