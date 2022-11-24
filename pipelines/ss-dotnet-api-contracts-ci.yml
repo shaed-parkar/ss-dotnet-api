@@ -22,15 +22,13 @@ steps:
   - task: DotNetCoreCLI@2
     displayName: Create Contracts Package
     inputs:
-      command: 'pack'
-      packagesToPack: '**/SS.Api.Contracts.csproj'
-      includesymbols: true
-      includesource: true
-      versioningScheme: 'byPrereleaseNumber'
-      majorVersion: '1'
-      minorVersion: '0'
-      patchVersion: '0'
-      verbosityPack: 'Normal'
+      command: "pack"
+      packagesToPack: "**/SS.Api.Contracts.csproj"
+      versioningScheme: "byPrereleaseNumber"
+      majorVersion: "1"
+      minorVersion: "0"
+      patchVersion: "0"
+      verbosityPack: "Normal"
 
   - task: DotNetCoreCLI@2
     displayName: Publish Contracts Package to feed
